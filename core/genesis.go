@@ -214,6 +214,8 @@ func (g *Genesis) configOrDefault(ghash common.Hash) *params.ChainConfig {
 		return params.MainnetChainConfig
 	case ghash == params.TestnetGenesisHash:
 		return params.TestnetChainConfig
+	case ghash == params.TitanGenesisHash:
+		return params.TitanChainConfig
 	default:
 		return params.AllEthashProtocolChanges
 	}
@@ -343,6 +345,19 @@ func DefaultRinkebyGenesisBlock() *Genesis {
 		Alloc:      decodePrealloc(rinkebyAllocData),
 	}
 }
+
+//DefaultTitanGenesisBlock returns the Titan genesis block
+func DefaultTitanGenesisBlock() *Genesis {
+	return &Genesis{
+		Config: params.TitanChainConfig,
+		Timestamp: 	1516602124,
+		ExtraData: hexutil.MustDecode("0x746974616e00000000000000000000000000000000000000000000000000000084a4430f6986329dd8060e3b9db914a828075228b7950e70f188b62a7cb17c9024d5bb9e1085f4460000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		GasLimit: 4700000,
+		Difficulty: big.NewInt(1),
+		Alloc:      decodePrealloc(titanAllocData),
+	}
+}
+
 
 // DeveloperGenesisBlock returns the 'geth --dev' genesis block. Note, this must
 // be seeded with the

@@ -74,6 +74,7 @@ var AppHelpFlagGroups = []flagGroup{
 			utils.NetworkIdFlag,
 			utils.TestnetFlag,
 			utils.RinkebyFlag,
+			utils.TitanFlag,
 			utils.SyncModeFlag,
 			utils.GCModeFlag,
 			utils.EthStatsURLFlag,
@@ -224,6 +225,12 @@ var AppHelpFlagGroups = []flagGroup{
 	},
 	{
 		Name: "MISC",
+	},
+	{
+		Name: "Titan",
+		Flags: []cli.Flag{
+			utils.EnableNodePermissionFlag,
+		},
 	},
 }
 
