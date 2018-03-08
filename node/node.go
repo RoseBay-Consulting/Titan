@@ -1,4 +1,4 @@
-// Copyright 2015 The go-ethereum Authors
+	// Copyright 2015 The go-ethereum Authors
 // This file is part of the go-ethereum library.
 //
 // The go-ethereum library is free software: you can redistribute it and/or modify
@@ -162,6 +162,13 @@ func (n *Node) Start() error {
 	if n.serverConfig.NodeDatabase == "" {
 		n.serverConfig.NodeDatabase = n.config.NodeDB()
 	}
+	
+	// Permissioning node
+	n.serverConfig.EnableNodePermission=n.config.EnableNodePermission
+
+	//fmt.Println("node/node.go........................")
+	//fmt.Println(n.config.EnableNodePermission)
+
 	running := &p2p.Server{Config: n.serverConfig}
 	n.log.Info("Starting peer-to-peer node", "instance", n.serverConfig.Name)
 

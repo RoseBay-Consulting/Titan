@@ -894,6 +894,9 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 	setWS(ctx, cfg)
 	setNodeUserIdent(ctx, cfg)
 
+	// For Permissioning
+	cfg.EnableNodePermission=ctx.GlobalBool(EnableNodePermissionFlag.Name)
+
 	switch {
 	case ctx.GlobalIsSet(DataDirFlag.Name):
 		cfg.DataDir = ctx.GlobalString(DataDirFlag.Name)
