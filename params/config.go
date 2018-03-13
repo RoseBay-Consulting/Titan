@@ -84,7 +84,7 @@ var (
 		HomesteadBlock: big.NewInt(1),
 		DAOForkBlock:   nil,
 		DAOForkSupport: true,
-		EIP150Block:    big.NewInt(2),
+		EIP150Block:    big.NewInt(0),
 		EIP150Hash:     common.HexToHash("0x663fb5296d1c1bb60392585cbce9fcb2391e3ea0dfe3c57bfac93ef91ff61288"),
 		EIP155Block:    big.NewInt(3),
 		EIP158Block:    big.NewInt(3),	
