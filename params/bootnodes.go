@@ -50,9 +50,9 @@ var RinkebyBootnodes = []string{
 // TitanBootnodes are the enode URLs of the P2P bootstrap nodes running on the
 // Titan chain network.
 var TitanBootnodes = []string{
-	"enode://4e9f0039a9ae15b1137f865cfb384fe4b87dfbde828dff45c667a2cb159a24bbfc28429bf3560ed147e4a5e3c309d270161a624416550973d255161e78d4df7f@192.168.88.238:30303", // bks
-	"enode://fced81677e82a12d2ba7ea52719120542b611c4119f1eafd84dea7f111b32ec0315df218b906b635208f9dce45edbb997463388fe69fd64b87a72e947c109b9e@192.168.88.239:30303", // gpl
-	"enode://cb0809825746c64c42c13c8725b62b588fecf1c788b6d1c533e96b516e4ca8794556db127dcdec44059dbe3309e1cd2ff5114f69bce54ff212c9c7da03e31f80@192.168.88.239:30301",
+	"enode://8b3c1e22d9499bdbaefef950d523550b8b249f69422f39c4f6a17a878c7188d3b36d534d9f5625d52c0663e8ed0574fc90686c4b923d9d3cb879443bb633c7dc@52.14.205.167:30303", // t2.micro
+	"enode://6d66bd63ec9ff06d4a1739e1c8d9aecb2252202ffa52e9b014b1715f00f9c1a2b9c0ef1d7fc640253143d61ec076637bbda30e94071a91dc7976495f13e0f228@18.188.87.71:30303", // t2.medium
+	
 }
 
 // DiscoveryV5Bootnodes are the enode URLs of the P2P bootstrap nodes for the
