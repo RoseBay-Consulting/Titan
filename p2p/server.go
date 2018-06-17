@@ -24,11 +24,6 @@ import (
 	"net"
 	"sync"
 	"time"
-	"os"
-	"os/user"
-	"path/filepath"
-	"runtime"
-
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/mclock"
 	"github.com/ethereum/go-ethereum/event"
@@ -37,6 +32,7 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/discv5"
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/ethereum/go-ethereum/p2p/netutil"
+	"github.com/ethereum/go-ethereum/p2p/permissions"
 )
 
 const (
@@ -144,9 +140,8 @@ type Config struct {
 	// whenever a message is sent to or received from a peer
 	EnableMsgEvents bool
 
-	//for permission blockchain 
+	//for permission titan blockchain
  	EnableNodePermission bool `toml:",omitempty"`
- 	DataDir string `toml:",omitempty"`
 
 	// Logger is a custom logger to use with the p2p.Server.
 	Logger log.Logger `toml:",omitempty"`
@@ -833,41 +828,36 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 		srv.log.Trace("Failed RLPx handshake", "addr", c.fd.RemoteAddr(), "conn", c.flags, "err", err)
 		return err
 	}
-	
+
 
 
 	//starting Titan Premissioning
+
 	currentNode :=srv.NodeInfo().ID
 	cnodeName :=srv.NodeInfo().Name
-	srv.log.Trace("Titan Permissioning",
-		"EnableNodePermission", srv.EnableNodePermission,
-		"DataDir", srv.DataDir,
-		"Current Node ID", currentNode,
-		"Node Name", cnodeName,
-		"Dialed Dest", dialDest,
-		"Connection ID", c.id,
-		"Connection String", c.id.String())
+	log.Trace("Titan Permissioning",
+			"EnableNodePermission", srv.EnableNodePermission,
+			"Current Node ID", currentNode,
+			"Node Name", cnodeName,
+			"Dialed Dest", dialDest,
+			"Connection ID", c.id,
+			"Connection String", c.id.String())
 
 	if srv.EnableNodePermission {
-		srv.log.Trace("Node Permissioning is Enabled.")
-		node := c.id.String()
-		direction := "INCOMING"
-		if dialDest != nil {
-			node = dialDest.ID.String()
-			direction = "OUTGOING"
-			srv.log.Trace("Node Permissioning", "Connection Direction", direction)
-		}
-	//irrespective to given <datadir>, place your permissioned-nodes.json on this datadir "home/permissioned-nodes" directory in linux.
-	//TO-DO: fix <DataDir> with respective DataDir direcory
-	
-	srv.DataDir = DefaultDataDir()
-	
-	if !isNodePermissioned(node, currentNode, srv.DataDir, direction) {
-			return errPermission
+	log.Trace("Node Permissioning is Enabled.")
+	node := c.id.String()
+	direction := "INCOMING"
+	if dialDest != nil {
+		node = dialDest.ID.String()
+		direction = "OUTGOING"
+		log.Trace("Node Permissioning", "Connection Direction", direction)
+	}
 
-		}
+	if !permissions.IsNodePermissioned(node, currentNode, direction) {
+		return errPermission
+	}
 	} else {
-		srv.log.Trace("Node Permissioning is Disabled.")
+		log.Trace("Node Permissioning is Disabled.")
 	}
 
 	//END of Titan Permissioning
@@ -1021,32 +1011,4 @@ func (srv *Server) PeersInfo() []*PeerInfo {
 		}
 	}
 	return infos
-}
-
-// DefaultDataDir is the default data directory to use for the databases and other
-// persistence requirements.
-func DefaultDataDir() string {
-	// Try to place the data folder in the user's home dir
-	home := homeDir()
-	if home != "" {
-		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", "Ethereum")
-		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", "Ethereum")
-		} else {
-			return filepath.Join(home, ".titan")
-		}
-	}
-	// As we cannot guess a stable location, return empty and handle later
-	return ""
-}
-
-func homeDir() string {
-	if home := os.Getenv("HOME"); home != "" {
-		return home
-	}
-	if usr, err := user.Current(); err == nil {
-		return usr.HomeDir
-	}
-	return ""
 }
