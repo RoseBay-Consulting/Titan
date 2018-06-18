@@ -9,6 +9,11 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/discover"
 	"github.com/ethereum/go-ethereum/log"
 	"io/ioutil"
+	"context"
+	"sync/atomic"
+	"syscall"
+	"os"
+	"os/signal"
 )
 
 const (
@@ -23,7 +28,6 @@ type PermissionNode struct {
 type Response struct {
 	Permissionresponse string `json:"enode,omitempty"`
 }
-
 var results string
 
 var responsevalue bool
@@ -31,35 +35,43 @@ var responsevalue bool
 //seeking node is incommingnodename
 var incommingnodename string
 
+
+type myServer struct {
+	http.Server
+	shutdownReq chan bool
+	reqCount    uint32
+}
+
 //sendig enode to next api to get the response is the ledger contain the ledger
-//it is get method
 func send(w http.ResponseWriter, req *http.Request) {
 	data := incommingnodename
 	json.NewEncoder(w).Encode(&PermissionNode{data})
 }
 
 
-func receive(w http.ResponseWriter, r *http.Request) {
-
+func (s *myServer)receive(w http.ResponseWriter, r *http.Request) {
 	body,err := ioutil.ReadAll(r.Body)
-
 	response := &Response{}
-
 	if err != nil {
-		log.Error("Failed to access nodes", "err", err)
+		log.Error("receive : faile to access nodes", "err", err)
 	}
-
 	if err := json.Unmarshal(body, response); err != nil {
-		log.Error("Failed to load nodes", "err", err)
+		log.Error("receive : failed to load nodes", "err", err)
 	}
 
 	b,err := strconv.ParseBool(response.Permissionresponse)
-
   	responsevalue = b
-  	fmt.Println("responsevalue is :- ")
 	fmt.Println(responsevalue)
-}
 
+  	//newlyadded
+	if !atomic.CompareAndSwapUint32(&s.reqCount, 0, 1) {
+		fmt.Println("Shutdown through API call")
+		return
+	}
+	go func() {
+		s.shutdownReq <- true
+	}()
+}
 
 func IsNodePermissioned(nodename string, currentNode string, direction string) bool {
 	return(isNodePermissioned(nodename, currentNode, direction))
@@ -67,13 +79,8 @@ func IsNodePermissioned(nodename string, currentNode string, direction string) b
 
 // check if a given node is permissioned to connect to the change
 func isNodePermissioned(nodename string, currentNode string, direction string) bool {
-incommingnodename = nodename
-/*  To-Do :-
-	//to make permissioned with 3rd proposal (Permissioned with contract) replace datadir with api endpoint.
 
-	//When we connect with web3js we have to check whether the rpc flag enabled node is present
-
-*/
+	incommingnodename = nodename
 	if(checkInLedger(nodename)) {
 
 	//Ready for handshake
@@ -87,32 +94,21 @@ incommingnodename = nodename
 }
 
 //check whether enode is present in the ledger
-func checkInLedger(enode_of_seeking_node string) bool{
-	router := mux.NewRouter()
-
-	router.HandleFunc("/nodedetails", send).Methods("GET")
-
-	router.HandleFunc("/noderesponse", receive).Methods("POST")
-
-	/*
-		//ToDo : closing port after  timeout
-
-		srv := &http.Server{
-			Handler:      router,
-			Addr:         "127.0.0.1:8000",
-			// Good practice: enforce timeouts for servers you create!
-			WriteTimeout: 15 * time.Second,
-			ReadTimeout:  15 * time.Second,
+func checkInLedger(enode_of_seeking_node string) bool {
+	server := NewServer()
+	done := make(chan bool)
+	go func() {
+		err := server.ListenAndServe()
+		if err != nil {
+			log.Error("checkLedger: ListenAndServer", "err", err)
 		}
+		done <- true
+	}()
 
-		log.Fatal(srv.ListenAndServe())
+	//wait shutdown
+	server.WaitShutdown()
 
-
-	*/
-
-	muxWithMiddlewares := http.TimeoutHandler(router, time.Second*10,"Timeout!")
-
-	http.ListenAndServe(":8083", muxWithMiddlewares)
+	<-done
 
 	if(responsevalue == true){
 		return true
@@ -121,8 +117,52 @@ func checkInLedger(enode_of_seeking_node string) bool{
 	}
 }
 
+func NewServer() *myServer {
+	//create server
+	s := &myServer{
+		Server: http.Server{
+			Addr:         ":8078",
+			ReadTimeout:  10 * time.Second,
+			WriteTimeout: 10 * time.Second,
+		},
+		shutdownReq: make(chan bool),
+	}
 
+	router := mux.NewRouter()
 
+	router.HandleFunc("/nodedetails", send).Methods("GET")
+
+	router.HandleFunc("/noderesponse", s.receive).Methods("POST")
+
+	//set http server handler
+	s.Handler = router
+
+	return s
+}
+
+func (s *myServer) WaitShutdown() {
+	irqSig := make(chan os.Signal, 1)
+	signal.Notify(irqSig, syscall.SIGINT, syscall.SIGTERM)
+
+	//Wait interrupt or shutdown request through /shutdown
+	select {
+	case sig := <-irqSig:
+		fmt.Println(sig)
+		case sig := <-s.shutdownReq:
+
+		fmt.Println(sig)
+	}
+
+	//Create shutdown context with 10 second timeout
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	//shutdown the server
+	err := s.Shutdown(ctx)
+	if err != nil {
+		log.Error("WaitShutdiwn:", "err", err)
+	}
+}
 
 func parsePermissionedNodes() []*discover.Node {
 
