@@ -32,7 +32,7 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/discv5"
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/ethereum/go-ethereum/p2p/netutil"
-	"github.com/ethereum/go-ethereum/p2p/permissions"
+	"github.com/ethereum/go-ethereum/p2p/permissions/internalcheck"
 )
 
 const (
@@ -143,8 +143,10 @@ type Config struct {
 	//for permission titan blockchain
  	EnableNodePermission bool `toml:",omitempty"`
 
+ 	PermissionAPI string `toml:",omitempty"`
 	// Logger is a custom logger to use with the p2p.Server.
 	Logger log.Logger `toml:",omitempty"`
+
 }
 
 // Server manages all peer connections.
@@ -837,6 +839,8 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 	cnodeName :=srv.NodeInfo().Name
 	log.Trace("Titan Permissioning",
 			"EnableNodePermission", srv.EnableNodePermission,
+//permissionapi is used for , permission using api call, in modern it is changed to internalcheck
+//			"PermissionAPI", srv.PermissionAPI,
 			"Current Node ID", currentNode,
 			"Node Name", cnodeName,
 			"Dialed Dest", dialDest,
@@ -853,7 +857,9 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 		log.Trace("Node Permissioning", "Connection Direction", direction)
 	}
 
-	if !permissions.IsNodePermissioned(node, currentNode, direction) {
+	//calls IsNodePermissioned() funciton for permission check, package may be  change to api if we want to
+	//do permissioning using api. it is now depricted
+	if !internalcheck.IsNodePermissioned(node, currentNode, direction) {
 		return errPermission
 	}
 	} else {

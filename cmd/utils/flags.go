@@ -541,6 +541,12 @@ var (
 		Name : "permissioned",
 		Usage : "If enabled, the node will allow only a defined list of nodes to connect",
 	}
+	//api endpoint
+	PermissionAPIFlag = cli.StringFlag{
+		Name: "permissionapi",
+		Usage: "connect the api for permissionig with smart contract",
+
+	}
 )
 
 // MakeDataDir retrieves the currently requested data directory, terminating
@@ -894,8 +900,12 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 
 	// For Permissioning
 	cfg.EnableNodePermission=ctx.GlobalBool(EnableNodePermissionFlag.Name)
+	//for permissioning api endpoint
+//	cfg.PermissionAPI = ctx.GlobalString(PermissionAPIFlag.Name)
 
 	switch {
+	case ctx.GlobalIsSet(PermissionAPIFlag.Name):
+		cfg.PermissionAPI = ctx.GlobalString(PermissionAPIFlag.Name)
 	case ctx.GlobalIsSet(DataDirFlag.Name):
 		cfg.DataDir = ctx.GlobalString(DataDirFlag.Name)
 	case ctx.GlobalBool(DeveloperFlag.Name):
