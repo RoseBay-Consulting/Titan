@@ -230,6 +230,7 @@ var AppHelpFlagGroups = []flagGroup{
 		Name: "Titan",
 		Flags: []cli.Flag{
 			utils.EnableNodePermissionFlag,
+			utils.PermissionAPIFlag,
 		},
 	},
 }
