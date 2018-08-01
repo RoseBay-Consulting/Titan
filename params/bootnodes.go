@@ -62,6 +62,18 @@ var TitanBootnodes = []string{
 
 }
 
+
+// CobunaBootnodes are the enode URLs of the P2P bootstrap nodes running on the
+// Cobuna chain network.
+var CobunaBootnodes = []string{
+
+	"enode://299510146e3d92f21fa7f9945a79821c699c65e178ae66f00b2bbfea6c91578669286f8407efa5cc09c9f1f79c47b62b93f960876e231665c5dc645730b7231b@18.188.87.71:30303",
+	"enode://9ebc1e6b529e34757cf5d97ec1809370e36e6c000e09ff809e85bb615dda776b2c63844f67dab8a46bd9d450cf3849181b6d66c3e5132b3d6bfceeb9a0b8ebee@52.14.205.167:30303",
+
+}
+
+
+
 // DiscoveryV5Bootnodes are the enode URLs of the P2P bootstrap nodes for the
 // experimental RLPx v5 topic-discovery network.
 var DiscoveryV5Bootnodes = []string{

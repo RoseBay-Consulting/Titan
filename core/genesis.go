@@ -215,6 +215,8 @@ func (g *Genesis) configOrDefault(ghash common.Hash) *params.ChainConfig {
 		return params.TestnetChainConfig
 	case ghash == params.TitanGenesisHash:
 		return params.TitanChainConfig
+	case ghash == params.CobunaGenesisHash:
+		return params.CobunaChainConfig
 	default:
 		return params.AllEthashProtocolChanges
 	}
@@ -344,6 +346,18 @@ func DefaultTitanGenesisBlock() *Genesis {
 		GasLimit: 4700000,
 		Difficulty: big.NewInt(1),
 		Alloc:      decodePrealloc(titanAllocData),
+	}
+}
+
+//DefaultCobunaGenesisBlock returns the Cobuna genesis block
+func DefaultCobunaGenesisBlock() *Genesis {
+	return &Genesis{
+		Config: params.CobunaChainConfig,
+		Timestamp: 	1533030679,
+		ExtraData: hexutil.MustDecode("0x00000000000000000000000000000000000000000000000000000000000000000c758bcaa5b01bafb41d78a365b551609e24156c5099cea0e7deb29f8d1f72f6bac2e66b98cafc580000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		GasLimit: 4700000,
+		Difficulty: big.NewInt(1),
+		Alloc:      decodePrealloc(cobunaAllocData),
 	}
 }
 

@@ -108,6 +108,7 @@ var (
 		utils.TestnetFlag,
 		utils.RinkebyFlag,
 		utils.TitanFlag,
+		utils.CobunaFlag,
 		utils.EnableNodePermissionFlag,
 		utils.VMEnableDebugFlag,
 		utils.NetworkIdFlag,
