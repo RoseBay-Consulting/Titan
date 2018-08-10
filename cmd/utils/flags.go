@@ -551,6 +551,13 @@ var (
 		Usage: "connect the api for permissionig with smart contract",
 
 	}
+
+	NodeEndPointFlag = cli.StringFlag{
+		Name:  "nodeendpoint",
+		Usage: "Comma separated end point url)",
+		Value:"",
+	}
+
 )
 
 // MakeDataDir retrieves the currently requested data directory, terminating
@@ -911,6 +918,7 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 
 	// For Permissioning
 	cfg.EnableNodePermission=ctx.GlobalBool(EnableNodePermissionFlag.Name)
+	cfg.NodeEndPoint=ctx.GlobalString(NodeEndPointFlag.Name)
 	//for permissioning api endpoint
 //	cfg.PermissionAPI = ctx.GlobalString(PermissionAPIFlag.Name)
 

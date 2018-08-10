@@ -8,7 +8,7 @@ import	(
 "github.com/ethereum/go-ethereum/p2p/permissions/internalcheck/permissioncontract"
 )
 
-
+var smartContractAddress string ="0x6a44e2c99f909a04c4d08a08279a237e2ad6ee64"
 
 func IsNodePermissioned(nodename string, currentNode string, direction string) bool {
 	return(isNodePermissioned(nodename, currentNode, direction))
@@ -22,7 +22,7 @@ func isNodePermissioned(nodename string, currentNode string, direction string) b
 	fmt.Println("currentnode is ")
 	fmt.Println(currentNode)
 	//fmt.Println("Node , Passed for checking")
-	if(checkInLedger(nodename)) {
+	if(checkInLedger(nodename,direction)) {
 
 		//Ready for handshake
 		log.Debug("isNodePermissioned")
@@ -35,14 +35,15 @@ func isNodePermissioned(nodename string, currentNode string, direction string) b
 	}
 }
 
-func checkInLedger(nodename string) bool {
-	client,	err	:=	ethclient.Dial("http://18.136.104.41:8501")
+func checkInLedger(nodename string ,direction string) bool {
+//	client,	err	:=	ethclient.Dial("http://18.136.104.41:8501")
+	client,	err	:=	ethclient.Dial(direction)
 	if	err	!=	nil	{
 	fmt.Println("error in checkledger : ethclient.dial")
 	}
 
 	//address is contract
-	address:= common.HexToAddress("0x6a44e2c99f909a04c4d08a08279a237e2ad6ee64")
+	address:= common.HexToAddress(smartContractAddress)
 	instance,	err	:= permissioncontract.NewPermissions(address,	client)
 	if	err	!=	nil	{
 		log.Debug("checkInLedger, error on getting istance")
