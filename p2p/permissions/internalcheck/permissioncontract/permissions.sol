@@ -43,7 +43,10 @@ contract Permissions{
     //NodeCount is total number of approved node in the network
     uint public NodeCount;
 
-   //nodeconformations conforms the node to elisible to connect to the network
+    //percentage is the consensus to meet (like 50%)
+    uint public consensuspercentage;
+    
+   //nodeconformations conforms the node to elisibconsensuspercentagele to connect to the network
     mapping(
         bytes32 => bool
             )public nodeconformations;
@@ -54,9 +57,13 @@ contract Permissions{
             )
         )public nodeinfo;
 
-    event LogOfAddNode(bytes32,address);
-    event LogOfSuspentionNode(bytes32,address);
-
+    event LogOfAddNode(bytes32 indexed enodeaddress, address indexed accountaddress, string indexed adding );
+    event LogOfSuspentionNode(bytes32 indexed enodeaddress, address indexed accountaddress, string indexed suspend);
+    event LogOfSetConsensus(uint indexed consensuslimit);
+    event LogOfResetProcess(bytes32 indexed previousenode,address indexed previousaccount);
+    event LogOfaddingConsensusMeet(bytes32 indexed enode, address indexed account, string indexed flag);
+    event LogOfsuspentionConsensusMeet(bytes32 indexed enode, address indexed account, string indexed flag);
+    
     constructor()
         public{
             LimitOfVote = 0;
@@ -142,11 +149,12 @@ contract Permissions{
                 //now the node is accepted and hence count is set to 0.
                 //if vote count is 0 then we will easily do the process of suspend node
                 nodeinfo[_enode][_account].votecount = 0;
-                LimitOfVote = NodeCount;
+                LimitOfVote = consensus();
+                emit LogOfaddingConsensusMeet(_enode, _account, "adding");
             }
             previousenode = _enode;
             previousaccount = _account;
-         emit LogOfAddNode(_enode,_account);
+         emit LogOfAddNode(_enode,_account, "addition");
 
     }
 
@@ -184,10 +192,38 @@ contract Permissions{
                 //votecount is set to zero so we can further proceed for addition again if suspended
                 nodeinfo[_enode][_account].votecount = 0;
                 NodeCount--;
-                LimitOfVote = NodeCount;
+                //LimitOfVote = NodeCount;
+                //Dynamic consensus set by the user 
+                LimitOfVote = consensus();
+            emit LogOfsuspentionConsensusMeet(_enode, _account, "suspetion");
             }
         previousenode = _enode;
         previousaccount = _account;
-        emit LogOfSuspentionNode(_enode,_account);
+        emit LogOfSuspentionNode(_enode, _account, "suspetion");
+    }
+    
+    function consensus()
+        public 
+        view
+        returns(uint limit){
+        return(uint((consensuspercentage*NodeCount/100)+1));
+    }
+
+    function setConsensus(uint _percentage)
+        public {
+            consensuspercentage = _percentage;    
+            emit LogOfSetConsensus(consensuspercentage);
+    }
+
+    //resetProcess is used to avoid from deadlock on current process 
+    function resetProcess()
+        public{
+            issuspention = false;
+            isadding = false;
+            addingmutex = false;
+            suspentionmutex = false;
+            //vote count to zero
+            nodeinfo[previousenode][previousaccount].votecount = 0;
+            emit LogOfResetProcess(previousenode, previousaccount);
     }
 }
