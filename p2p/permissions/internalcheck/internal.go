@@ -8,7 +8,8 @@ import	(
 "github.com/ethereum/go-ethereum/p2p/permissions/internalcheck/permissioncontract"
 )
 
-var smartContractAddress string ="0x6a44e2c99f909a04c4d08a08279a237e2ad6ee64"
+// var smartContractAddress string ="0x6a44e2c99f909a04c4d08a08279a237e2ad6ee64"
+var smartContractAddress string ="0x9a292d944522596880fa6adcfcf97db3d20ac6a2"
 
 func IsNodePermissioned(nodename string, currentNode string, direction string) bool {
 	return(isNodePermissioned(nodename, currentNode, direction))
