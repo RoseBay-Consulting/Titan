@@ -57,12 +57,12 @@ contract Permissions{
             )
         )public nodeinfo;
 
-    event LogOfAddNode(bytes32 indexed enodeaddress, address indexed accountaddress, string indexed adding );
-    event LogOfSuspentionNode(bytes32 indexed enodeaddress, address indexed accountaddress, string indexed suspend);
-    event LogOfSetConsensus(uint indexed consensuslimit);
-    event LogOfResetProcess(bytes32 indexed previousenode,address indexed previousaccount);
-    event LogOfaddingConsensusMeet(bytes32 indexed enode, address indexed account, string indexed flag);
-    event LogOfsuspentionConsensusMeet(bytes32 indexed enode, address indexed account, string indexed flag);
+    event LogOfAddNode(bytes32 enodeaddress, address accountaddress, string adding );
+    event LogOfSuspentionNode(bytes32 enodeaddress, address accountaddress, string suspend);
+    event LogOfSetConsensus(uint consensuslimit);
+    event LogOfResetProcess(bytes32 previousenode,address previousaccount);
+    event LogOfaddingConsensusMeet(bytes32 enode, address account, string flag);
+    event LogOfsuspentionConsensusMeet(bytes32 enode, address account, string flag);
     
     constructor()
         public{
@@ -206,7 +206,13 @@ contract Permissions{
         public 
         view
         returns(uint limit){
-        return(uint((consensuspercentage*NodeCount/100)+1));
+            limit = ((consensuspercentage*NodeCount/100)+1);
+       //checking overflow
+        if (limit >= NodeCount){
+            return NodeCount;
+        }else {
+            return limit;
+        }
     }
 
     function setConsensus(uint _percentage)
