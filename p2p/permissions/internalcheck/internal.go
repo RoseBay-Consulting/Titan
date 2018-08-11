@@ -36,13 +36,13 @@ func isNodePermissioned(nodename string, currentNode string, direction string) b
 }
 
 func checkInLedger(nodename string) bool {
-	client,	err	:=	ethclient.Dial("http://192.168.88.20:8545")
+	client,	err	:=	ethclient.Dial("http://18.136.104.41:8501")
 	if	err	!=	nil	{
 	fmt.Println("error in checkledger : ethclient.dial")
 	}
 
 	//address is contract
-	address:= common.HexToAddress("0xc787a882f5f7037d02c6db8c155f379d48a745c6")
+	address:= common.HexToAddress("0x9a292d944522596880fa6adcfcf97db3d20ac6a2")
 	instance,	err	:= permissioncontract.NewPermissions(address,	client)
 	if	err	!=	nil	{
 		log.Debug("checkInLedger, error on getting istance")
