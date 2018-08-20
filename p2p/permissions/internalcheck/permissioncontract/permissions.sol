@@ -13,8 +13,10 @@ contract Permissions{
         //flag also represent that this node is already exist in the network
         //flag do not identify this node is currently in peer.
         bool        flag;
-        //votecount counts total number of vote for each node
+        //votecount counts total number of accepted vote for each node
         uint        votecount;
+        //rejectcount counts total number if rejected vote for each node
+        uint        rejectcount;
     }
 
     //issuspention for suspention phase is running
@@ -64,6 +66,11 @@ contract Permissions{
     event LogOfResetProcess(address previousaccount, bytes32 previousenode);
     event LogOfaddingConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
     event LogOfsuspentionConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
+    event LogOfAddingVote(address accountaddress, bytes32 enodeaddress, string flag, bool vote);
+    event LogOfSuspentionVote(address accountaddress, bytes32 enodeaddress, string flag, bool vote);
+    event LogOfVoteReject(address accountaddress, bytes32 enodeaddress, uint rejectcount);
+    
+    
     
     constructor()
         public{
@@ -100,7 +107,39 @@ contract Permissions{
             }
     }
 
-    //checkNode checks the seeking node is eligible to peer with existing network
+
+//addnode operation for voteing purpose 
+//else statement is designed in such a way that it cannot be execute.
+function addingVote(address _account, bytes32 _enode)
+    public{
+         if((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
+                _addNode(_account, _enode);
+            }else {
+                 require((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account));
+            }   
+        //LogOfAddingVote indicates that, vote is done
+         emit LogOfAddingVote(_account, _enode, "adding", true);
+}
+
+
+
+
+
+
+
+//suspendVote operation for voteing purpose 
+//else statement is designed in such a way that it cannot be execute.
+function suspendVote(address _account, bytes32 _enode)
+    public{
+        if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
+                _suspendNode(_account, _enode);
+        }else{
+            require((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account));
+        }        
+        emit LogOfSuspentionVote(_account, _enode, "suspention", true);
+    }
+
+  //checkNode checks the seeking node is eligible to peer with existing network
     //it will be called by api1--> api2
     function checkNode(bytes32 _enode)
         public
@@ -112,8 +151,6 @@ contract Permissions{
             return false;
             }
     }
-
-
 
 
     function _addNode(address _account, bytes32 _enode)
@@ -199,26 +236,59 @@ contract Permissions{
                 //LimitOfVote = NodeCount;
                 //Dynamic consensus set by the user 
                 LimitOfVote = consensus();
-            emit LogOfsuspentionConsensusMeet(_account, _enode, "suspetion");
+            emit LogOfsuspentionConsensusMeet(_account, _enode, "suspension");
             }
         previousenode = _enode;
         previousaccount = _account;
-        emit LogOfSuspentionNode(_account, _enode, "suspetion");
+        emit LogOfSuspentionNode(_account, _enode, "suspention");
     }
     
+    
+    //Negative vote calculation is required for resetting the process of due to comming deadlock and ensure that the consensus will not reach.
+    //voteReject funciton is called when reject the vote
+    //This is equally valid for both adding and suspention.
+    function voteReject(address _account, bytes32 _enode)
+        public{
+            
+            
+        if(((suspentionmutex == true) || (addingmutex == true)) && (previousenode == _enode) && (previousaccount == _account)){
+        
+        nodeinfo[_account][_enode].rejectcount += 1;
+        emit LogOfVoteReject(_account,_enode,nodeinfo[_account][_enode].rejectcount);
+         
+         if( nodeinfo[_account][_enode].rejectcount > rejectConsensus() ) {
+              resetProcess();
+             
+             }
+           
+        }
+        
+    }
+   
+   //funciton consensus calculate the total number if vote required to accept the node 
     function consensus()
-        public 
+        private 
         view
         returns(uint limit){
             limit = ((consensuspercentage*NodeCount/100)+1);
-       //checking overflow
-        if (limit >= NodeCount){
-            return NodeCount;
-        }else {
-            return limit;
-        }
+           //checking overflow
+            if (limit >= NodeCount){
+                return NodeCount;
+            }else {
+                return limit;
+            }
     }
-
+    
+    
+    //Total consensus required to reject the node conformation.
+    function rejectConsensus()
+    private
+    view
+    returns(uint limit){
+        limit = ((100-consensuspercentage)*NodeCount/100);
+    }
+    
+    //setConsensus sets the consensus percentage 
     function setConsensus(uint _percentage)
         public {
             consensuspercentage = _percentage;    
@@ -234,6 +304,7 @@ contract Permissions{
             suspentionmutex = false;
             //vote count to zero
             nodeinfo[previousaccount][previousenode].votecount = 0;
+            nodeinfo[previousaccount][previousenode].rejectcount = 0;
             emit LogOfResetProcess(previousaccount, previousenode);
     }
 }
