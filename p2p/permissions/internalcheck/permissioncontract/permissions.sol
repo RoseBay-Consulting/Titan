@@ -47,55 +47,56 @@ contract Permissions{
     uint public consensuspercentage;
     
    //nodeconformations conforms the node to elisibconsensuspercentagele to connect to the network
+   
     mapping(
         bytes32 => bool
             )public nodeconformations;
 
-    mapping(
-        bytes32 => mapping(
-            address => Node
-            )
-        )public nodeinfo;
-
-    event LogOfAddNode(bytes32 enodeaddress, address accountaddress, string adding );
-    event LogOfSuspentionNode(bytes32 enodeaddress, address accountaddress, string suspend);
+    mapping( 
+    address => mapping(
+    bytes32 => Node
+        )
+    )public nodeinfo ;
+        
+    event LogOfAddNode(address accountaddress, bytes32 enodeaddress, string adding );
+    event LogOfSuspentionNode(address accountaddress, bytes32 enodeaddress, string suspend);
     event LogOfSetConsensus(uint consensuslimit);
-    event LogOfResetProcess(bytes32 previousenode,address previousaccount);
-    event LogOfaddingConsensusMeet(bytes32 enode, address account, string flag);
-    event LogOfsuspentionConsensusMeet(bytes32 enode, address account, string flag);
+    event LogOfResetProcess(address previousaccount, bytes32 previousenode);
+    event LogOfaddingConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
+    event LogOfsuspentionConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
     
     constructor()
         public{
             LimitOfVote = 0;
             NodeCount = 0;
         }
-
-    //addNode function enters the enode and account of the proposed node.
+ 
+     //addNode function enters the enode and account of the proposed node.
     //the node will be eligible to peer with other node when it meets the consensus
     //untill reach to consensus node will be proposed node. If meets the consensus then
     //it will be approved node. it will be signified by the nodeconformations[enode_of_proposed_node]
-    function addNode(bytes32 _enode, address _account)
+    function addNode(address _account, bytes32 _enode)
         public{
 
             if((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _addNode(_enode,_account);
+                _addNode(_account, _enode);
             }
             else if((addingmutex == false) && (isadding == false)){
                 addingmutex = true;
-                _addNode(_enode,_account);
+                _addNode(_account,_enode);
             }
     }
 
     //suspendNode will disable the nodeconformations flag (nodeconformations = false)
     //while checking in the phase of handshake it will check the nodeconformations status
-    function suspendNode(bytes32 _enode, address _account)
+    function suspendNode(address _account, bytes32 _enode)
         public{
              if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _suspendNode(_enode,_account);
+                _suspendNode(_account, _enode);
             }
             else if((suspentionmutex == false) && (issuspention == false)){
                 suspentionmutex = true;
-                _suspendNode(_enode,_account);
+                _suspendNode(_account,_enode);
             }
     }
 
@@ -112,7 +113,10 @@ contract Permissions{
             }
     }
 
-    function _addNode(bytes32 _enode, address _account)
+
+
+
+    function _addNode(address _account, bytes32 _enode)
         private {
 
             assert(!nodeconformations[_enode]);
@@ -123,16 +127,16 @@ contract Permissions{
 
              isadding = true;
 
-            if(nodeinfo[_enode][_account].votecount < LimitOfVote){
-            nodeinfo[_enode][_account].enode = _enode;
-            nodeinfo[_enode][_account].account = _account;
-            nodeinfo[_enode][_account].flag = true;
-            nodeinfo[_enode][_account].votecount += 1;
+            if(nodeinfo[_account][_enode].votecount < LimitOfVote){
+            nodeinfo[_account][_enode].enode = _enode;
+            nodeinfo[_account][_enode].account = _account;
+            nodeinfo[_account][_enode].flag = true;
+            nodeinfo[_account][_enode].votecount += 1;
             }
-            if(nodeinfo[_enode][_account].votecount == LimitOfVote){
-                nodeinfo[_enode][_account].enode = _enode;
-                nodeinfo[_enode][_account].account = _account;
-                nodeinfo[_enode][_account].flag = true;
+            if(nodeinfo[_account][_enode].votecount == LimitOfVote){
+                nodeinfo[_account][_enode].enode = _enode;
+                nodeinfo[_account][_enode].account = _account;
+                nodeinfo[_account][_enode].flag = true;
 
                 addingmutex = false;
 
@@ -148,17 +152,17 @@ contract Permissions{
 
                 //now the node is accepted and hence count is set to 0.
                 //if vote count is 0 then we will easily do the process of suspend node
-                nodeinfo[_enode][_account].votecount = 0;
+                nodeinfo[_account][_enode].votecount = 0;
                 LimitOfVote = consensus();
-                emit LogOfaddingConsensusMeet(_enode, _account, "adding");
+                emit LogOfaddingConsensusMeet(_account, _enode, "adding");
             }
             previousenode = _enode;
             previousaccount = _account;
-         emit LogOfAddNode(_enode,_account, "addition");
+         emit LogOfAddNode(_account, _enode, "addition");
 
     }
 
-    function _suspendNode(bytes32 _enode, address _account)
+    function _suspendNode(address _account, bytes32 _enode)
         private{
             //checks if adding is running
             assert(!isadding);
@@ -168,7 +172,7 @@ contract Permissions{
 
            //still flag is enabled and cannot be set to false.
            //only nodeconformations can decide it  is removed or not.
-           assert(nodeinfo[_enode][_account].flag == true);
+           assert(nodeinfo[_account][_enode].flag == true);
 
            //checks if node is currently on workable state
            assert(nodeconformations[_enode] == true);
@@ -176,30 +180,30 @@ contract Permissions{
             //if suspention is running then make suspention flag to true
             issuspention = true;
 
-            assert(nodeinfo[_enode][_account].votecount < LimitOfVote);
-            nodeinfo[_enode][_account].enode = _enode;
-            nodeinfo[_enode][_account].account = _account;
-            nodeinfo[_enode][_account].flag = true;
-            nodeinfo[_enode][_account].votecount += 1;
+            assert(nodeinfo[_account][_enode].votecount < LimitOfVote);
+            nodeinfo[_account][_enode].enode = _enode;
+            nodeinfo[_account][_enode].account = _account;
+            nodeinfo[_account][_enode].flag = true;
+            nodeinfo[_account][_enode].votecount += 1;
 
             //waiting for final vote and if final vote is equal to limit of vote then changes the states of node count and LimitOfVote and related flags
-            if(nodeinfo[_enode][_account].votecount == LimitOfVote){
+            if(nodeinfo[_account][_enode].votecount == LimitOfVote){
 
                 //set nodeconformations to false and it inticates this node is disabled.
                 nodeconformations[_enode] = false;
                 issuspention = false;
                 suspentionmutex = false;
                 //votecount is set to zero so we can further proceed for addition again if suspended
-                nodeinfo[_enode][_account].votecount = 0;
+                nodeinfo[_account][_enode].votecount = 0;
                 NodeCount--;
                 //LimitOfVote = NodeCount;
                 //Dynamic consensus set by the user 
                 LimitOfVote = consensus();
-            emit LogOfsuspentionConsensusMeet(_enode, _account, "suspetion");
+            emit LogOfsuspentionConsensusMeet(_account, _enode, "suspetion");
             }
         previousenode = _enode;
         previousaccount = _account;
-        emit LogOfSuspentionNode(_enode, _account, "suspetion");
+        emit LogOfSuspentionNode(_account, _enode, "suspetion");
     }
     
     function consensus()
@@ -229,7 +233,7 @@ contract Permissions{
             addingmutex = false;
             suspentionmutex = false;
             //vote count to zero
-            nodeinfo[previousenode][previousaccount].votecount = 0;
-            emit LogOfResetProcess(previousenode, previousaccount);
+            nodeinfo[previousaccount][previousenode].votecount = 0;
+            emit LogOfResetProcess(previousaccount, previousenode);
     }
 }
