@@ -11,18 +11,16 @@ import	(
 // var smartContractAddress string ="0x6a44e2c99f909a04c4d08a08279a237e2ad6ee64"
 //var smartContractAddress string ="0x9a292d944522596880fa6adcfcf97db3d20ac6a2"
 var smartContractAddress string ="0x5df78fc6c7e1a110d1be47d70b4cf570cc6f4e26"
+var cc string
 
 func IsNodePermissioned(nodename string, currentNode string, direction string) bool {
+	cc=currentNode
 	return(isNodePermissioned(nodename, currentNode, direction))
 }
 
 // check if a given node is permissioned to connect to the change
 func isNodePermissioned(nodename string, currentNode string, direction string) bool {
 
-	fmt.Println("nodename is ")
-	fmt.Println(nodename)
-	fmt.Println("currentnode is ")
-	fmt.Println(currentNode)
 	//fmt.Println("Node , Passed for checking")
 	if(checkInLedger(nodename,direction)) {
 
@@ -48,17 +46,21 @@ func checkInLedger(nodename string ,direction string) bool {
 	address:= common.HexToAddress(smartContractAddress)
 	instance,	err	:= permissioncontract.NewPermissions(address,	client)
 	if	err	!=	nil	{
-		log.Debug("checkInLedger, error on getting istance")
+		log.Debug("checkInLedger, error on getting instance")
 	}
 	key	:=	[32]byte{}
 
 	copy(key[:], []byte(nodename))
 
 	result,	err	:=	instance.Nodeconformations(nil,key)
+	/*fmt.Println("******")
+	fmt.Println(cc)
+	fmt.Println(nodename)
+	fmt.Println(result)
+	fmt.Println("******")*/
 	if	err	!=	nil	{
 		fmt.Println(err)
 		log.Debug("checkInLedger, error on getting result from ledger")
 	}
-	fmt.Println(result)
 	return result
 }

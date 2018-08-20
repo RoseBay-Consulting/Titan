@@ -871,9 +871,9 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 
 		for i := 0; i < len(s); i++ {
 
-			fmt.Println(s[i])
+		//	fmt.Println(s[i])
 
-			// break loop to prevent connection of other node end point  after successful connection to any
+			// break loop to prevent connection of other node end point  after successfull connection to any
 			if nodeCheckStatus= internalcheck.IsNodePermissioned(node, currentNode, s[i]) ; nodeCheckStatus==true{
 				break
 			}
@@ -883,7 +883,15 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 		//calls IsNodePermissioned() funciton for permission check, package may be  change to api if we want to
 		//do permissioning using api. it is now depricted
 		// error handling if none of end point works
+
 		if !nodeCheckStatus {
+			/*fmt.Println("******start******")
+			fmt.Println(c)
+			fmt.Println(c.id)
+			fmt.Println(c.fd.RemoteAddr())
+			fmt.Println(c.flags)
+			fmt.Println("******end******")*/
+
 			return errPermission
 		}
 
@@ -892,6 +900,7 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 	}
 
 	//END of Titan Permissioning
+
 
 
 
