@@ -60,15 +60,15 @@ contract Permissions{
         )
     )public nodeinfo ;
         
-    event LogOfAddNode(address accountaddress, bytes32 enodeaddress, string adding );
-    event LogOfSuspentionNode(address accountaddress, bytes32 enodeaddress, string suspend);
+    event LogOfAddNode(uint id, address accountaddress, bytes32 enodeaddress, string adding );
+    event LogOfSuspentionNode(uint id, address accountaddress, bytes32 enodeaddress, string suspend);
     event LogOfSetConsensus(uint consensuslimit);
     event LogOfResetProcess(address previousaccount, bytes32 previousenode);
     event LogOfaddingConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
     event LogOfsuspentionConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
-    event LogOfAddingVote(address accountaddress, bytes32 enodeaddress, string flag, bool vote);
-    event LogOfSuspentionVote(address accountaddress, bytes32 enodeaddress, string flag, bool vote);
-    event LogOfVoteReject(address accountaddress, bytes32 enodeaddress, uint rejectcount);
+    event LogOfAddingVote(uint id, address accountaddress, bytes32 enodeaddress, string flag, bool vote);
+    event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress, string flag, bool vote);
+    event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
     
     
     
@@ -82,43 +82,43 @@ contract Permissions{
     //the node will be eligible to peer with other node when it meets the consensus
     //untill reach to consensus node will be proposed node. If meets the consensus then
     //it will be approved node. it will be signified by the nodeconformations[enode_of_proposed_node]
-    function addNode(address _account, bytes32 _enode)
+    function addNode(uint _id, address _account, bytes32 _enode)
         public{
 
             if((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _addNode(_account, _enode);
+                _addNode(_id, _account, _enode);
             }
             else if((addingmutex == false) && (isadding == false)){
                 addingmutex = true;
-                _addNode(_account,_enode);
+                _addNode(_id, _account,_enode);
             }
     }
 
     //suspendNode will disable the nodeconformations flag (nodeconformations = false)
     //while checking in the phase of handshake it will check the nodeconformations status
-    function suspendNode(address _account, bytes32 _enode)
+    function suspendNode(uint _id, address _account, bytes32 _enode)
         public{
              if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _suspendNode(_account, _enode);
+                _suspendNode(_id, _account, _enode);
             }
             else if((suspentionmutex == false) && (issuspention == false)){
                 suspentionmutex = true;
-                _suspendNode(_account,_enode);
+                _suspendNode(_id, _account,_enode);
             }
     }
 
 
 //addnode operation for voteing purpose 
 //else statement is designed in such a way that it cannot be execute.
-function addingVote(address _account, bytes32 _enode)
+function addingVote(uint _id, address _account, bytes32 _enode)
     public{
          if((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _addNode(_account, _enode);
+                _addNode(_id, _account, _enode);
             }else {
                  require((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account));
             }   
         //LogOfAddingVote indicates that, vote is done
-         emit LogOfAddingVote(_account, _enode, "adding", true);
+         emit LogOfAddingVote(_id, _account, _enode, "adding", true);
 }
 
 
@@ -129,14 +129,14 @@ function addingVote(address _account, bytes32 _enode)
 
 //suspendVote operation for voteing purpose 
 //else statement is designed in such a way that it cannot be execute.
-function suspendVote(address _account, bytes32 _enode)
+function suspendVote(uint _id, address _account, bytes32 _enode)
     public{
         if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _suspendNode(_account, _enode);
+                _suspendNode(_id, _account, _enode);
         }else{
             require((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account));
         }        
-        emit LogOfSuspentionVote(_account, _enode, "suspention", true);
+        emit LogOfSuspentionVote(_id, _account, _enode, "suspention", true);
     }
 
   //checkNode checks the seeking node is eligible to peer with existing network
@@ -153,7 +153,7 @@ function suspendVote(address _account, bytes32 _enode)
     }
 
 
-    function _addNode(address _account, bytes32 _enode)
+    function _addNode(uint _id, address _account, bytes32 _enode)
         private {
 
             assert(!nodeconformations[_enode]);
@@ -195,11 +195,11 @@ function suspendVote(address _account, bytes32 _enode)
             }
             previousenode = _enode;
             previousaccount = _account;
-         emit LogOfAddNode(_account, _enode, "addition");
+         emit LogOfAddNode(_id, _account, _enode, "addition");
 
     }
 
-    function _suspendNode(address _account, bytes32 _enode)
+    function _suspendNode(uint _id, address _account, bytes32 _enode)
         private{
             //checks if adding is running
             assert(!isadding);
@@ -240,21 +240,21 @@ function suspendVote(address _account, bytes32 _enode)
             }
         previousenode = _enode;
         previousaccount = _account;
-        emit LogOfSuspentionNode(_account, _enode, "suspention");
+        emit LogOfSuspentionNode(_id, _account, _enode, "suspention");
     }
     
     
     //Negative vote calculation is required for resetting the process of due to comming deadlock and ensure that the consensus will not reach.
     //voteReject funciton is called when reject the vote
     //This is equally valid for both adding and suspention.
-    function voteReject(address _account, bytes32 _enode)
+    function voteReject(uint _id, address _account, bytes32 _enode)
         public{
             
             
         if(((suspentionmutex == true) || (addingmutex == true)) && (previousenode == _enode) && (previousaccount == _account)){
         
         nodeinfo[_account][_enode].rejectcount += 1;
-        emit LogOfVoteReject(_account,_enode,nodeinfo[_account][_enode].rejectcount);
+        emit LogOfVoteReject(_id, _account, _enode, nodeinfo[_account][_enode].rejectcount);
          
          if( nodeinfo[_account][_enode].rejectcount > rejectConsensus() ) {
               resetProcess();
