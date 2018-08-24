@@ -71,6 +71,8 @@ contract Permissions{
     event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress, string flag, bool vote);
     event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
     
+    event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
+    
     
     
     constructor()
@@ -268,9 +270,9 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
         emit LogOfVoteReject(_id, _account, _enode, nodeinfo[_account][_enode].rejectcount);
          
          if( nodeinfo[_account][_enode].rejectcount >= rejectConsensus() ) {
+             emit LogOfVoteRejectConsensusMeet(_id, _account, _enode, isadding, issuspention);
               resetProcess();
-             
-             }
+                }
            
         }
         
