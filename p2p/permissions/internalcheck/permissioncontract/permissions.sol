@@ -35,6 +35,7 @@ contract Permissions{
 
     //LimitOfVote is total number of vote need to approve the node
     uint public LimitOfVote;
+    uint public LimitOfNegVote;
 
     //previous holds the previous node information
     //it tracks that is the previous information matches the current transaction
@@ -75,6 +76,7 @@ contract Permissions{
     constructor()
         public{
             LimitOfVote = 0;
+            LimitOfNegVote = 0;
             NodeCount = 0;
         }
  
@@ -175,22 +177,27 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
                 nodeinfo[_account][_enode].account = _account;
                 nodeinfo[_account][_enode].flag = true;
 
-                addingmutex = false;
+            //  addingmutex = false;
+            //  now the adding phase is completed
+            //  isadding = false;
 
-                //now the adding phase is completed
-                isadding = false;
-
-                //nodeconformations is used for check the node from permissions layers in core chain
+            //nodeconformations is used for check the node from permissions layers in core chain
                 nodeconformations[_enode] = true;
 
-                //NodeCount counts the number of node that are verified by the network.
-                //this will be incremented only if the consensus is reached
+            //resetProcess() resets the flags used in operation 
+                resetProcess();
+
+            //NodeCount counts the number of node that are verified by the network.
+            //this will be incremented only if the consensus is reached
                 NodeCount++;
 
-                //now the node is accepted and hence count is set to 0.
-                //if vote count is 0 then we will easily do the process of suspend node
-                nodeinfo[_account][_enode].votecount = 0;
-                LimitOfVote = consensus();
+            //now the node is accepted and hence count is set to 0.
+            //if vote count is 0 then we will easily do the process of suspend node
+            //    nodeinfo[_account][_enode].votecount = 0;
+              
+                LimitOfVote = acceptConsensus();
+                LimitOfNegVote = rejectConsensus();
+                
                 emit LogOfaddingConsensusMeet(_account, _enode, "adding");
             }
             previousenode = _enode;
@@ -228,14 +235,18 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
 
                 //set nodeconformations to false and it inticates this node is disabled.
                 nodeconformations[_enode] = false;
-                issuspention = false;
-                suspentionmutex = false;
-                //votecount is set to zero so we can further proceed for addition again if suspended
-                nodeinfo[_account][_enode].votecount = 0;
+            //  issuspention = false;
+            //  suspentionmutex = false;
+            //  votecount is set to zero so we can further proceed for addition again if suspended
+            //  nodeinfo[_account][_enode].votecount = 0;
+              
+            //resetProcess() resets the flags used in operation 
+                resetProcess();
                 NodeCount--;
                 //LimitOfVote = NodeCount;
                 //Dynamic consensus set by the user 
-                LimitOfVote = consensus();
+                LimitOfVote = acceptConsensus();
+                LimitOfNegVote = rejectConsensus();
             emit LogOfsuspentionConsensusMeet(_account, _enode, "suspension");
             }
         previousenode = _enode;
@@ -256,7 +267,7 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
         nodeinfo[_account][_enode].rejectcount += 1;
         emit LogOfVoteReject(_id, _account, _enode, nodeinfo[_account][_enode].rejectcount);
          
-         if( nodeinfo[_account][_enode].rejectcount > rejectConsensus() ) {
+         if( nodeinfo[_account][_enode].rejectcount >= rejectConsensus() ) {
               resetProcess();
              
              }
@@ -265,8 +276,8 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
         
     }
    
-   //funciton consensus calculate the total number if vote required to accept the node 
-    function consensus()
+   //funciton acceptConsensus calculate the total number if vote required to accept the node 
+    function acceptConsensus()
         private 
         view
         returns(uint limit){
@@ -285,12 +296,21 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
     private
     view
     returns(uint limit){
-        limit = ((100-consensuspercentage)*NodeCount/100);
+        limit = NodeCount - LimitOfVote + 1;
+            //checking overflow
+            if (limit >= NodeCount){
+                return NodeCount;
+            }else {
+                return limit;
+            }
+
     }
     
     //setConsensus sets the consensus percentage 
     function setConsensus(uint _percentage)
         public {
+            //checking range of percentage , 0 <= _percentage => 100 
+            require((_percentage >= 0) && (_percentage <= 100 ));
             consensuspercentage = _percentage;    
             emit LogOfSetConsensus(consensuspercentage);
     }
@@ -305,6 +325,8 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
             //vote count to zero
             nodeinfo[previousaccount][previousenode].votecount = 0;
             nodeinfo[previousaccount][previousenode].rejectcount = 0;
+            
             emit LogOfResetProcess(previousaccount, previousenode);
     }
 }
+
