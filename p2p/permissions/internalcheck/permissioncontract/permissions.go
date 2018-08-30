@@ -16,10 +16,10 @@ import (
 )
 
 // PermissionsABI is the input ABI used to generate the binding from.
-const PermissionsABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"previousaccount\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"consensuspercentage\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isadding\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_percentage\",\"type\":\"uint256\"}],\"name\":\"setConsensus\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"addingmutex\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"NodeCount\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_enode\",\"type\":\"bytes32\"},{\"name\":\"_account\",\"type\":\"address\"}],\"name\":\"addNode\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_enode\",\"type\":\"bytes32\"},{\"name\":\"_account\",\"type\":\"address\"}],\"name\":\"suspendNode\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"consensus\",\"outputs\":[{\"name\":\"limit\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"resetProcess\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"previousenode\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes32\"},{\"name\":\"\",\"type\":\"address\"}],\"name\":\"nodeinfo\",\"outputs\":[{\"name\":\"enode\",\"type\":\"bytes32\"},{\"name\":\"account\",\"type\":\"address\"},{\"name\":\"flag\",\"type\":\"bool\"},{\"name\":\"votecount\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_enode\",\"type\":\"bytes32\"}],\"name\":\"checkNode\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"nodeconformations\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"issuspention\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"suspentionmutex\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"LimitOfVote\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"adding\",\"type\":\"string\"}],\"name\":\"LogOfAddNode\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"suspend\",\"type\":\"string\"}],\"name\":\"LogOfSuspentionNode\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"consensuslimit\",\"type\":\"uint256\"}],\"name\":\"LogOfSetConsensus\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"previousenode\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"previousaccount\",\"type\":\"address\"}],\"name\":\"LogOfResetProcess\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"enode\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"flag\",\"type\":\"string\"}],\"name\":\"LogOfaddingConsensusMeet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"enode\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"flag\",\"type\":\"string\"}],\"name\":\"LogOfsuspentionConsensusMeet\",\"type\":\"event\"}]"
+const PermissionsABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"previousaccount\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"consensuspercentage\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isadding\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_percentage\",\"type\":\"uint256\"}],\"name\":\"setConsensus\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"},{\"name\":\"_account\",\"type\":\"address\"},{\"name\":\"_enode\",\"type\":\"bytes32\"}],\"name\":\"addNode\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"addingmutex\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"},{\"name\":\"_account\",\"type\":\"address\"},{\"name\":\"_enode\",\"type\":\"bytes32\"}],\"name\":\"suspendNode\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"NodeCount\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"},{\"name\":\"_account\",\"type\":\"address\"},{\"name\":\"_enode\",\"type\":\"bytes32\"}],\"name\":\"suspendVote\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"},{\"name\":\"_account\",\"type\":\"address\"},{\"name\":\"_enode\",\"type\":\"bytes32\"}],\"name\":\"addingVote\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"nodeinfo\",\"outputs\":[{\"name\":\"enode\",\"type\":\"bytes32\"},{\"name\":\"account\",\"type\":\"address\"},{\"name\":\"flag\",\"type\":\"bool\"},{\"name\":\"votecount\",\"type\":\"uint256\"},{\"name\":\"rejectcount\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"LimitOfNegVote\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"resetProcess\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"previousenode\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_enode\",\"type\":\"bytes32\"}],\"name\":\"checkNode\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"nodeconformations\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_id\",\"type\":\"uint256\"},{\"name\":\"_account\",\"type\":\"address\"},{\"name\":\"_enode\",\"type\":\"bytes32\"}],\"name\":\"voteReject\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"issuspention\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"suspentionmutex\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"LimitOfVote\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"adding\",\"type\":\"string\"}],\"name\":\"LogOfAddNode\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"suspend\",\"type\":\"string\"}],\"name\":\"LogOfSuspentionNode\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"consensuslimit\",\"type\":\"uint256\"}],\"name\":\"LogOfSetConsensus\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"previousaccount\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"previousenode\",\"type\":\"bytes32\"}],\"name\":\"LogOfResetProcess\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"flag\",\"type\":\"string\"}],\"name\":\"LogOfaddingConsensusMeet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"flag\",\"type\":\"string\"}],\"name\":\"LogOfsuspentionConsensusMeet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"flag\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"vote\",\"type\":\"bool\"}],\"name\":\"LogOfAddingVote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"flag\",\"type\":\"string\"},{\"indexed\":false,\"name\":\"vote\",\"type\":\"bool\"}],\"name\":\"LogOfSuspentionVote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"rejectcount\",\"type\":\"uint256\"}],\"name\":\"LogOfVoteReject\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"id\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"accountaddress\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"enodeaddress\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"isadding\",\"type\":\"bool\"},{\"indexed\":false,\"name\":\"issuspention\",\"type\":\"bool\"}],\"name\":\"LogOfVoteRejectConsensusMeet\",\"type\":\"event\"}]"
 
 // PermissionsBin is the compiled bytecode used for deploying new contracts.
-const PermissionsBin = `0x608060405234801561001057600080fd5b5060006001819055600455610b7f8061002a6000396000f3006080604052600436106100f05763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663118e696781146100f55780631867f60c146101265780632da0bca81461014d5780633549ef171461017657806360c229f7146101905780636a19f6ad146101a557806376849376146101ba5780638ec08b20146101de5780638ef3f761146102025780639f9a19d314610217578063b1b49f251461022c578063b3b64ce214610241578063b50d6f7514610293578063c86d87b9146102ab578063d6336a33146102c3578063eae897c7146102d8578063ff5c11f8146102ed575b600080fd5b34801561010157600080fd5b5061010a610302565b60408051600160a060020a039092168252519081900360200190f35b34801561013257600080fd5b5061013b610311565b60408051918252519081900360200190f35b34801561015957600080fd5b50610162610317565b604080519115158252519081900360200190f35b34801561018257600080fd5b5061018e600435610325565b005b34801561019c57600080fd5b50610162610360565b3480156101b157600080fd5b5061013b61036f565b3480156101c657600080fd5b5061018e600435600160a060020a0360243516610375565b3480156101ea57600080fd5b5061018e600435600160a060020a0360243516610405565b34801561020e57600080fd5b5061013b61048b565b34801561022357600080fd5b5061018e6104a9565b34801561023857600080fd5b5061013b610523565b34801561024d57600080fd5b50610265600435600160a060020a0360243516610529565b60408051948552600160a060020a039093166020850152901515838301526060830152519081900360800190f35b34801561029f57600080fd5b5061016260043561056b565b3480156102b757600080fd5b50610162600435610598565b3480156102cf57600080fd5b506101626105ad565b3480156102e457600080fd5b506101626105b6565b3480156102f957600080fd5b5061013b6105c6565b600354600160a060020a031681565b60055481565b600054610100900460ff1681565b60058190556040805182815290517f7eb26b746889baac2fb48d4457332fb465f503b675451a7e294120693da45b199181900360200190a150565b60005462010000900460ff1681565b60045481565b60005462010000900460ff1615156001148015610393575060025482145b80156103ac5750600354600160a060020a038281169116145b156103c0576103bb82826105cc565b610401565b60005462010000900460ff161580156103e15750600054610100900460ff16155b15610401576000805462ff000019166201000017905561040182826105cc565b5050565b6000546301000000900460ff1615156001148015610424575060025482145b801561043d5750600354600160a060020a038281169116145b1561044c576103bb82826108a9565b6000546301000000900460ff16158015610469575060005460ff16155b15610401576000805463ff0000001916630100000017905561040182826108a9565b6004546005546064908202046001019081106104a657506004545b90565b6000805463ffffffff1916815560028054825260076020908152604080842060038054600160a060020a0390811687529184528286208501959095559254935481519485529092169083015280517f25f36e43cc5e3db240c0fa2585314a51ed767376db5476ea24254b803a3276309281900390910190a1565b60025481565b60076020908152600092835260408084209091529082529020805460018201546002909201549091600160a060020a0381169160a060020a90910460ff169084565b60008181526006602052604081205460ff1615156001141561058f57506001610593565b5060005b919050565b60066020526000908152604090205460ff1681565b60005460ff1681565b6000546301000000900460ff1681565b60015481565b60008281526006602052604090205460ff16156105e557fe5b60005460ff16156105f257fe5b60005462010000900460ff16151561060657fe5b6000805461ff001916610100178155600154838252600760209081526040808420600160a060020a03861685529091529091206002015410156106bb576000828152600760209081526040808320600160a060020a03851680855292529091208381556001808201805460a060020a73ffffffffffffffffffffffffffffffffffffffff1990911690941774ff0000000000000000000000000000000000000000191693909317909255600201805490910190555b6001546000838152600760209081526040808320600160a060020a03861684529091529020600201541415610806576000828152600760209081526040808320600160a060020a0385168085528184528285208781556001808201805474ff00000000000000000000000000000000000000001973ffffffffffffffffffffffffffffffffffffffff1990911685171660a060020a179055865462ffff001916875588875260068652938620805460ff1916851790556004805490940190935584529091526002015561078c61048b565b60015560408051838152600160a060020a038316602082015260608183018190526006908201527f616464696e670000000000000000000000000000000000000000000000000000608082015290517f103ede1170d1e7714dcce0879255f6f760594d1d78ecf32669fa2790ba6899d99181900360a00190a15b600282905560038054600160a060020a03831673ffffffffffffffffffffffffffffffffffffffff19909116811790915560408051848152602081019290925260608282018190526008908301527f6164646974696f6e0000000000000000000000000000000000000000000000006080830152517f32a926be1e10de007860c671acf1ad7a1197bae083fa818ba5511288366f74319181900360a00190a15050565b600054610100900460ff16156108bb57fe5b6000546301000000900460ff1615156108d057fe5b6000828152600760209081526040808320600160a060020a0385168452909152902060019081015460a060020a900460ff1615151461090b57fe5b60008281526006602052604090205460ff16151560011461092857fe5b6000805460ff19166001908117825554838252600760209081526040808420600160a060020a0386168552909152909120600201541061096457fe5b6000828152600760209081526040808320600160a060020a03851680855292529091208381556001808201805460a060020a73ffffffffffffffffffffffffffffffffffffffff1990911690941774ff0000000000000000000000000000000000000000191693909317909255600201805482019081905590541415610ab0576000828152600660209081526040808320805460ff19169055825463ff0000ff1916835560078252808320600160a060020a038516845290915281206002015560048054600019019055610a3661048b565b60015560408051838152600160a060020a038316602082015260608183018190526009908201527f737573706574696f6e0000000000000000000000000000000000000000000000608082015290517f020064aba293970f316af376011a01158e4563606fd4d2c8402d59879a896ddd9181900360a00190a15b600282905560038054600160a060020a03831673ffffffffffffffffffffffffffffffffffffffff19909116811790915560408051848152602081019290925260608282018190526009908301527f737573706574696f6e00000000000000000000000000000000000000000000006080830152517ff60f2e03adb385c167f2b27bb7b23b038ada3fd8274e0515ab8b69113af3639e9181900360a00190a150505600a165627a7a723058208af7f2ccbbd7e9f56bb6f3069905454af2e44f9b6a85d380f899ba1d77cc56a20029`
+const PermissionsBin = `0x608060405234801561001057600080fd5b5060006001819055600281905560055561101e8061002f6000396000f3006080604052600436106101115763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663118e696781146101165780631867f60c146101475780632da0bca81461016e5780633549ef17146101975780635b5a743b146101b157806360c229f7146101d857806362f90d3d146101ed5780636a19f6ad1461021457806374a166fb1461022957806375bccb391461025057806397b1a65d146102775780639a7bf5bd146102ce5780639f9a19d3146102e3578063b1b49f25146102f8578063b50d6f751461030d578063c86d87b914610325578063c9663fac1461033d578063d6336a3314610364578063eae897c714610379578063ff5c11f81461038e575b600080fd5b34801561012257600080fd5b5061012b6103a3565b60408051600160a060020a039092168252519081900360200190f35b34801561015357600080fd5b5061015c6103b2565b60408051918252519081900360200190f35b34801561017a57600080fd5b506101836103b8565b604080519115158252519081900360200190f35b3480156101a357600080fd5b506101af6004356103c6565b005b3480156101bd57600080fd5b506101af600435600160a060020a036024351660443561041e565b3480156101e457600080fd5b506101836104b1565b3480156101f957600080fd5b506101af600435600160a060020a03602435166044356104c0565b34801561022057600080fd5b5061015c610548565b34801561023557600080fd5b506101af600435600160a060020a036024351660443561054e565b34801561025c57600080fd5b506101af600435600160a060020a0360243516604435610667565b34801561028357600080fd5b5061029b600160a060020a036004351660243561077e565b60408051958652600160a060020a0390941660208601529115158484015260608401526080830152519081900360a00190f35b3480156102da57600080fd5b5061015c6107c5565b3480156102ef57600080fd5b506101af6107cb565b34801561030457600080fd5b5061015c610861565b34801561031957600080fd5b50610183600435610867565b34801561033157600080fd5b50610183600435610894565b34801561034957600080fd5b506101af600435600160a060020a03602435166044356108a9565b34801561037057600080fd5b50610183610a13565b34801561038557600080fd5b50610183610a1c565b34801561039a57600080fd5b5061015c610a2c565b600454600160a060020a031681565b60065481565b600054610100900460ff1681565b600081101580156103d8575060648111155b15156103e357600080fd5b60068190556040805182815290517f7eb26b746889baac2fb48d4457332fb465f503b675451a7e294120693da45b199181900360200190a150565b60005462010000900460ff161515600114801561043c575060035481145b80156104555750600454600160a060020a038381169116145b1561046a57610465838383610a32565b6104ac565b60005462010000900460ff1615801561048b5750600054610100900460ff16155b156104ac576000805462ff00001916620100001790556104ac838383610a32565b505050565b60005462010000900460ff1681565b6000546301000000900460ff16151560011480156104df575060035481145b80156104f85750600454600160a060020a038381169116145b1561050857610465838383610d1a565b6000546301000000900460ff16158015610525575060005460ff16155b156104ac576000805463ff000000191663010000001790556104ac838383610d1a565b60055481565b6000546301000000900460ff161515600114801561056d575060035481145b80156105865750600454600160a060020a038381169116145b1561059b57610596838383610d1a565b6105de565b6000546301000000900460ff16151560011480156105ba575060035481145b80156105d35750600454600160a060020a038381169116145b15156105de57600080fd5b60408051848152600160a060020a03841660208201528082018390526001608082015260a060608201819052600a908201527f73757370656e74696f6e0000000000000000000000000000000000000000000060c082015290517fefddc40bbe0322d1ce33bf7ee3b1633be2a6f6548f15be800ff445d8fb692e289181900360e00190a1505050565b60005462010000900460ff1615156001148015610685575060035481145b801561069e5750600454600160a060020a038381169116145b156106b3576106ae838383610a32565b6106f5565b60005462010000900460ff16151560011480156106d1575060035481145b80156106ea5750600454600160a060020a038381169116145b15156106f557600080fd5b60408051848152600160a060020a03841660208201528082018390526001608082015260a0606082018190526006908201527f616464696e67000000000000000000000000000000000000000000000000000060c082015290517f9ad3ed8a72d9c28e71dfb48742bbfeae3336247ee0919e062de2af58b49217449181900360e00190a1505050565b600860209081526000928352604080842090915290825290208054600182015460028301546003909301549192600160a060020a0382169260a060020a90920460ff169185565b60025481565b6000805463ffffffff1916815560048054600160a060020a0390811683526008602081815260408086206003805488529083528187206002018790558554851687529282528086208354875282528086208301959095559254905484519190921681529182015281517f7350a7ef2a3d35fb20258804f114f645300830cdbb8ee760db828576c6fb81e9929181900390910190a1565b60035481565b60008181526007602052604081205460ff1615156001141561088b5750600161088f565b5060005b919050565b60076020526000908152604090205460ff1681565b6000546301000000900460ff161515600114806108d3575060005462010000900460ff1615156001145b80156108e0575060035481145b80156108f95750600454600160a060020a038381169116145b156104ac57600160a060020a03821660008181526008602090815260408083208584528252918290206003018054600101908190558251878152918201939093528082018490526060810192909252517f7cb4bca1eaf530a5cfb00996c12f042fc783becb68d363236c238c081d0139029181900360800190a161097b610fb7565b600160a060020a0383166000908152600860209081526040808320858452909152902060030154106104ac5760005460408051858152600160a060020a038516602082015280820184905260ff610100840481161515606083015290921615156080830152517f2df2bdee48a50cd1f9880e4e9b7da78d3e20086869d1b784721308ab708154449181900360a00190a16104ac6107cb565b60005460ff1681565b6000546301000000900460ff1681565b60015481565b60008181526007602052604090205460ff1615610a4b57fe5b60005460ff1615610a5857fe5b60005462010000900460ff161515610a6c57fe5b6000805461ff001916610100178155600154600160a060020a0384168252600860209081526040808420858552909152909120600201541015610b2157600160a060020a038216600081815260086020908152604080832085845290915290208281556001808201805460a060020a73ffffffffffffffffffffffffffffffffffffffff1990911690941774ff0000000000000000000000000000000000000000191693909317909255600201805490910190555b600154600160a060020a03831660009081526008602090815260408083208584529091529020600201541415610c6f57600160a060020a038216600081815260086020908152604080832085845282528083208581556001908101805460a060020a73ffffffffffffffffffffffffffffffffffffffff1990911690961774ff000000000000000000000000000000000000000019169590951790945560079091529020805460ff19169091179055610bd86107cb565b600580546001019055610be9610fd3565b600155610bf4610fb7565b60025560408051600160a060020a03841681526020810183905260608183018190526006908201527f616464696e670000000000000000000000000000000000000000000000000000608082015290517f7486860e51bf4bc8ff65d6a2a93daaa5fafe07f449fec1fee7dd6f4c9a5a9c7d9181900360a00190a15b600381905560048054600160a060020a03841673ffffffffffffffffffffffffffffffffffffffff1990911681179091556040805185815260208101929092528181018390526080606083018190526008908301527f6164646974696f6e00000000000000000000000000000000000000000000000060a0830152517f36647f3687846b9a82b6b2a1364f364419cab9eec541c42dc16fa9a7dfacd4b89181900360c00190a1505050565b600054610100900460ff1615610d2c57fe5b6000546301000000900460ff161515610d4157fe5b600160a060020a0382166000908152600860209081526040808320848452909152902060019081015460a060020a900460ff16151514610d7d57fe5b60008181526007602052604090205460ff161515600114610d9a57fe5b6000805460ff19166001908117825554600160a060020a03841682526008602090815260408084208585529091529091206002015410610dd657fe5b600160a060020a038216600081815260086020908152604080832085845290915290208281556001808201805460a060020a73ffffffffffffffffffffffffffffffffffffffff1990911690941774ff0000000000000000000000000000000000000000191693909317909255600201805482019081905590541415610f0c576000818152600760205260409020805460ff19169055610e746107cb565b60058054600019019055610e86610fd3565b600155610e91610fb7565b60025560408051600160a060020a0384168152602081018390526060818301819052600a908201527f73757370656e73696f6e00000000000000000000000000000000000000000000608082015290517f1144ea0430fa79179c20ea22367df2c383b2be2c02d580fa417e764d19083d0d9181900360a00190a15b600381905560048054600160a060020a03841673ffffffffffffffffffffffffffffffffffffffff199091168117909155604080518581526020810192909252818101839052608060608301819052600a908301527f73757370656e74696f6e0000000000000000000000000000000000000000000060a0830152517fc6a6d7a20a1eed76135dfd7ae812dc6a4a6fba50230c0263e4b4de2182a4f9709181900360c00190a1505050565b60018054600554908103909101908110610fd057506005545b90565b600554600654606490820204600101908110610fd05750600554610fd05600a165627a7a723058201a6bdfb8df8da0b3b41333edc7ca9a55d6969043a214a0b67d9718832c25b60c0029`
 
 // DeployPermissions deploys a new Ethereum contract, binding an instance of Permissions to it.
 func DeployPermissions(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Permissions, error) {
@@ -176,6 +176,32 @@ func (_Permissions *PermissionsTransactorRaw) Transact(opts *bind.TransactOpts, 
 	return _Permissions.Contract.contract.Transact(opts, method, params...)
 }
 
+// LimitOfNegVote is a free data retrieval call binding the contract method 0x9a7bf5bd.
+//
+// Solidity: function LimitOfNegVote() constant returns(uint256)
+func (_Permissions *PermissionsCaller) LimitOfNegVote(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _Permissions.contract.Call(opts, out, "LimitOfNegVote")
+	return *ret0, err
+}
+
+// LimitOfNegVote is a free data retrieval call binding the contract method 0x9a7bf5bd.
+//
+// Solidity: function LimitOfNegVote() constant returns(uint256)
+func (_Permissions *PermissionsSession) LimitOfNegVote() (*big.Int, error) {
+	return _Permissions.Contract.LimitOfNegVote(&_Permissions.CallOpts)
+}
+
+// LimitOfNegVote is a free data retrieval call binding the contract method 0x9a7bf5bd.
+//
+// Solidity: function LimitOfNegVote() constant returns(uint256)
+func (_Permissions *PermissionsCallerSession) LimitOfNegVote() (*big.Int, error) {
+	return _Permissions.Contract.LimitOfNegVote(&_Permissions.CallOpts)
+}
+
 // LimitOfVote is a free data retrieval call binding the contract method 0xff5c11f8.
 //
 // Solidity: function LimitOfVote() constant returns(uint256)
@@ -278,32 +304,6 @@ func (_Permissions *PermissionsSession) CheckNode(_enode [32]byte) (bool, error)
 // Solidity: function checkNode(_enode bytes32) constant returns(bool)
 func (_Permissions *PermissionsCallerSession) CheckNode(_enode [32]byte) (bool, error) {
 	return _Permissions.Contract.CheckNode(&_Permissions.CallOpts, _enode)
-}
-
-// Consensus is a free data retrieval call binding the contract method 0x8ef3f761.
-//
-// Solidity: function consensus() constant returns(limit uint256)
-func (_Permissions *PermissionsCaller) Consensus(opts *bind.CallOpts) (*big.Int, error) {
-	var (
-		ret0 = new(*big.Int)
-	)
-	out := ret0
-	err := _Permissions.contract.Call(opts, out, "consensus")
-	return *ret0, err
-}
-
-// Consensus is a free data retrieval call binding the contract method 0x8ef3f761.
-//
-// Solidity: function consensus() constant returns(limit uint256)
-func (_Permissions *PermissionsSession) Consensus() (*big.Int, error) {
-	return _Permissions.Contract.Consensus(&_Permissions.CallOpts)
-}
-
-// Consensus is a free data retrieval call binding the contract method 0x8ef3f761.
-//
-// Solidity: function consensus() constant returns(limit uint256)
-func (_Permissions *PermissionsCallerSession) Consensus() (*big.Int, error) {
-	return _Permissions.Contract.Consensus(&_Permissions.CallOpts)
 }
 
 // Consensuspercentage is a free data retrieval call binding the contract method 0x1867f60c.
@@ -410,46 +410,50 @@ func (_Permissions *PermissionsCallerSession) Nodeconformations(arg0 [32]byte) (
 	return _Permissions.Contract.Nodeconformations(&_Permissions.CallOpts, arg0)
 }
 
-// Nodeinfo is a free data retrieval call binding the contract method 0xb3b64ce2.
+// Nodeinfo is a free data retrieval call binding the contract method 0x97b1a65d.
 //
-// Solidity: function nodeinfo( bytes32,  address) constant returns(enode bytes32, account address, flag bool, votecount uint256)
-func (_Permissions *PermissionsCaller) Nodeinfo(opts *bind.CallOpts, arg0 [32]byte, arg1 common.Address) (struct {
-	Enode     [32]byte
-	Account   common.Address
-	Flag      bool
-	Votecount *big.Int
+// Solidity: function nodeinfo( address,  bytes32) constant returns(enode bytes32, account address, flag bool, votecount uint256, rejectcount uint256)
+func (_Permissions *PermissionsCaller) Nodeinfo(opts *bind.CallOpts, arg0 common.Address, arg1 [32]byte) (struct {
+	Enode       [32]byte
+	Account     common.Address
+	Flag        bool
+	Votecount   *big.Int
+	Rejectcount *big.Int
 }, error) {
 	ret := new(struct {
-		Enode     [32]byte
-		Account   common.Address
-		Flag      bool
-		Votecount *big.Int
+		Enode       [32]byte
+		Account     common.Address
+		Flag        bool
+		Votecount   *big.Int
+		Rejectcount *big.Int
 	})
 	out := ret
 	err := _Permissions.contract.Call(opts, out, "nodeinfo", arg0, arg1)
 	return *ret, err
 }
 
-// Nodeinfo is a free data retrieval call binding the contract method 0xb3b64ce2.
+// Nodeinfo is a free data retrieval call binding the contract method 0x97b1a65d.
 //
-// Solidity: function nodeinfo( bytes32,  address) constant returns(enode bytes32, account address, flag bool, votecount uint256)
-func (_Permissions *PermissionsSession) Nodeinfo(arg0 [32]byte, arg1 common.Address) (struct {
-	Enode     [32]byte
-	Account   common.Address
-	Flag      bool
-	Votecount *big.Int
+// Solidity: function nodeinfo( address,  bytes32) constant returns(enode bytes32, account address, flag bool, votecount uint256, rejectcount uint256)
+func (_Permissions *PermissionsSession) Nodeinfo(arg0 common.Address, arg1 [32]byte) (struct {
+	Enode       [32]byte
+	Account     common.Address
+	Flag        bool
+	Votecount   *big.Int
+	Rejectcount *big.Int
 }, error) {
 	return _Permissions.Contract.Nodeinfo(&_Permissions.CallOpts, arg0, arg1)
 }
 
-// Nodeinfo is a free data retrieval call binding the contract method 0xb3b64ce2.
+// Nodeinfo is a free data retrieval call binding the contract method 0x97b1a65d.
 //
-// Solidity: function nodeinfo( bytes32,  address) constant returns(enode bytes32, account address, flag bool, votecount uint256)
-func (_Permissions *PermissionsCallerSession) Nodeinfo(arg0 [32]byte, arg1 common.Address) (struct {
-	Enode     [32]byte
-	Account   common.Address
-	Flag      bool
-	Votecount *big.Int
+// Solidity: function nodeinfo( address,  bytes32) constant returns(enode bytes32, account address, flag bool, votecount uint256, rejectcount uint256)
+func (_Permissions *PermissionsCallerSession) Nodeinfo(arg0 common.Address, arg1 [32]byte) (struct {
+	Enode       [32]byte
+	Account     common.Address
+	Flag        bool
+	Votecount   *big.Int
+	Rejectcount *big.Int
 }, error) {
 	return _Permissions.Contract.Nodeinfo(&_Permissions.CallOpts, arg0, arg1)
 }
@@ -532,25 +536,46 @@ func (_Permissions *PermissionsCallerSession) Suspentionmutex() (bool, error) {
 	return _Permissions.Contract.Suspentionmutex(&_Permissions.CallOpts)
 }
 
-// AddNode is a paid mutator transaction binding the contract method 0x76849376.
+// AddNode is a paid mutator transaction binding the contract method 0x5b5a743b.
 //
-// Solidity: function addNode(_enode bytes32, _account address) returns()
-func (_Permissions *PermissionsTransactor) AddNode(opts *bind.TransactOpts, _enode [32]byte, _account common.Address) (*types.Transaction, error) {
-	return _Permissions.contract.Transact(opts, "addNode", _enode, _account)
+// Solidity: function addNode(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactor) AddNode(opts *bind.TransactOpts, _id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.contract.Transact(opts, "addNode", _id, _account, _enode)
 }
 
-// AddNode is a paid mutator transaction binding the contract method 0x76849376.
+// AddNode is a paid mutator transaction binding the contract method 0x5b5a743b.
 //
-// Solidity: function addNode(_enode bytes32, _account address) returns()
-func (_Permissions *PermissionsSession) AddNode(_enode [32]byte, _account common.Address) (*types.Transaction, error) {
-	return _Permissions.Contract.AddNode(&_Permissions.TransactOpts, _enode, _account)
+// Solidity: function addNode(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsSession) AddNode(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.AddNode(&_Permissions.TransactOpts, _id, _account, _enode)
 }
 
-// AddNode is a paid mutator transaction binding the contract method 0x76849376.
+// AddNode is a paid mutator transaction binding the contract method 0x5b5a743b.
 //
-// Solidity: function addNode(_enode bytes32, _account address) returns()
-func (_Permissions *PermissionsTransactorSession) AddNode(_enode [32]byte, _account common.Address) (*types.Transaction, error) {
-	return _Permissions.Contract.AddNode(&_Permissions.TransactOpts, _enode, _account)
+// Solidity: function addNode(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactorSession) AddNode(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.AddNode(&_Permissions.TransactOpts, _id, _account, _enode)
+}
+
+// AddingVote is a paid mutator transaction binding the contract method 0x75bccb39.
+//
+// Solidity: function addingVote(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactor) AddingVote(opts *bind.TransactOpts, _id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.contract.Transact(opts, "addingVote", _id, _account, _enode)
+}
+
+// AddingVote is a paid mutator transaction binding the contract method 0x75bccb39.
+//
+// Solidity: function addingVote(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsSession) AddingVote(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.AddingVote(&_Permissions.TransactOpts, _id, _account, _enode)
+}
+
+// AddingVote is a paid mutator transaction binding the contract method 0x75bccb39.
+//
+// Solidity: function addingVote(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactorSession) AddingVote(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.AddingVote(&_Permissions.TransactOpts, _id, _account, _enode)
 }
 
 // ResetProcess is a paid mutator transaction binding the contract method 0x9f9a19d3.
@@ -595,25 +620,67 @@ func (_Permissions *PermissionsTransactorSession) SetConsensus(_percentage *big.
 	return _Permissions.Contract.SetConsensus(&_Permissions.TransactOpts, _percentage)
 }
 
-// SuspendNode is a paid mutator transaction binding the contract method 0x8ec08b20.
+// SuspendNode is a paid mutator transaction binding the contract method 0x62f90d3d.
 //
-// Solidity: function suspendNode(_enode bytes32, _account address) returns()
-func (_Permissions *PermissionsTransactor) SuspendNode(opts *bind.TransactOpts, _enode [32]byte, _account common.Address) (*types.Transaction, error) {
-	return _Permissions.contract.Transact(opts, "suspendNode", _enode, _account)
+// Solidity: function suspendNode(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactor) SuspendNode(opts *bind.TransactOpts, _id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.contract.Transact(opts, "suspendNode", _id, _account, _enode)
 }
 
-// SuspendNode is a paid mutator transaction binding the contract method 0x8ec08b20.
+// SuspendNode is a paid mutator transaction binding the contract method 0x62f90d3d.
 //
-// Solidity: function suspendNode(_enode bytes32, _account address) returns()
-func (_Permissions *PermissionsSession) SuspendNode(_enode [32]byte, _account common.Address) (*types.Transaction, error) {
-	return _Permissions.Contract.SuspendNode(&_Permissions.TransactOpts, _enode, _account)
+// Solidity: function suspendNode(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsSession) SuspendNode(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.SuspendNode(&_Permissions.TransactOpts, _id, _account, _enode)
 }
 
-// SuspendNode is a paid mutator transaction binding the contract method 0x8ec08b20.
+// SuspendNode is a paid mutator transaction binding the contract method 0x62f90d3d.
 //
-// Solidity: function suspendNode(_enode bytes32, _account address) returns()
-func (_Permissions *PermissionsTransactorSession) SuspendNode(_enode [32]byte, _account common.Address) (*types.Transaction, error) {
-	return _Permissions.Contract.SuspendNode(&_Permissions.TransactOpts, _enode, _account)
+// Solidity: function suspendNode(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactorSession) SuspendNode(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.SuspendNode(&_Permissions.TransactOpts, _id, _account, _enode)
+}
+
+// SuspendVote is a paid mutator transaction binding the contract method 0x74a166fb.
+//
+// Solidity: function suspendVote(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactor) SuspendVote(opts *bind.TransactOpts, _id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.contract.Transact(opts, "suspendVote", _id, _account, _enode)
+}
+
+// SuspendVote is a paid mutator transaction binding the contract method 0x74a166fb.
+//
+// Solidity: function suspendVote(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsSession) SuspendVote(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.SuspendVote(&_Permissions.TransactOpts, _id, _account, _enode)
+}
+
+// SuspendVote is a paid mutator transaction binding the contract method 0x74a166fb.
+//
+// Solidity: function suspendVote(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactorSession) SuspendVote(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.SuspendVote(&_Permissions.TransactOpts, _id, _account, _enode)
+}
+
+// VoteReject is a paid mutator transaction binding the contract method 0xc9663fac.
+//
+// Solidity: function voteReject(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactor) VoteReject(opts *bind.TransactOpts, _id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.contract.Transact(opts, "voteReject", _id, _account, _enode)
+}
+
+// VoteReject is a paid mutator transaction binding the contract method 0xc9663fac.
+//
+// Solidity: function voteReject(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsSession) VoteReject(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.VoteReject(&_Permissions.TransactOpts, _id, _account, _enode)
+}
+
+// VoteReject is a paid mutator transaction binding the contract method 0xc9663fac.
+//
+// Solidity: function voteReject(_id uint256, _account address, _enode bytes32) returns()
+func (_Permissions *PermissionsTransactorSession) VoteReject(_id *big.Int, _account common.Address, _enode [32]byte) (*types.Transaction, error) {
+	return _Permissions.Contract.VoteReject(&_Permissions.TransactOpts, _id, _account, _enode)
 }
 
 // PermissionsLogOfAddNodeIterator is returned from FilterLogOfAddNode and is used to iterate over the raw logs and unpacked data for LogOfAddNode events raised by the Permissions contract.
@@ -685,15 +752,16 @@ func (it *PermissionsLogOfAddNodeIterator) Close() error {
 
 // PermissionsLogOfAddNode represents a LogOfAddNode event raised by the Permissions contract.
 type PermissionsLogOfAddNode struct {
-	Enodeaddress   [32]byte
+	Id             *big.Int
 	Accountaddress common.Address
+	Enodeaddress   [32]byte
 	Adding         string
 	Raw            types.Log // Blockchain specific contextual infos
 }
 
-// FilterLogOfAddNode is a free log retrieval operation binding the contract event 0x32a926be1e10de007860c671acf1ad7a1197bae083fa818ba5511288366f7431.
+// FilterLogOfAddNode is a free log retrieval operation binding the contract event 0x36647f3687846b9a82b6b2a1364f364419cab9eec541c42dc16fa9a7dfacd4b8.
 //
-// Solidity: e LogOfAddNode(enodeaddress bytes32, accountaddress address, adding string)
+// Solidity: e LogOfAddNode(id uint256, accountaddress address, enodeaddress bytes32, adding string)
 func (_Permissions *PermissionsFilterer) FilterLogOfAddNode(opts *bind.FilterOpts) (*PermissionsLogOfAddNodeIterator, error) {
 
 	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfAddNode")
@@ -703,9 +771,9 @@ func (_Permissions *PermissionsFilterer) FilterLogOfAddNode(opts *bind.FilterOpt
 	return &PermissionsLogOfAddNodeIterator{contract: _Permissions.contract, event: "LogOfAddNode", logs: logs, sub: sub}, nil
 }
 
-// WatchLogOfAddNode is a free log subscription operation binding the contract event 0x32a926be1e10de007860c671acf1ad7a1197bae083fa818ba5511288366f7431.
+// WatchLogOfAddNode is a free log subscription operation binding the contract event 0x36647f3687846b9a82b6b2a1364f364419cab9eec541c42dc16fa9a7dfacd4b8.
 //
-// Solidity: e LogOfAddNode(enodeaddress bytes32, accountaddress address, adding string)
+// Solidity: e LogOfAddNode(id uint256, accountaddress address, enodeaddress bytes32, adding string)
 func (_Permissions *PermissionsFilterer) WatchLogOfAddNode(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfAddNode) (event.Subscription, error) {
 
 	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfAddNode")
@@ -720,6 +788,132 @@ func (_Permissions *PermissionsFilterer) WatchLogOfAddNode(opts *bind.WatchOpts,
 				// New log arrived, parse the event and forward to the user
 				event := new(PermissionsLogOfAddNode)
 				if err := _Permissions.contract.UnpackLog(event, "LogOfAddNode", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// PermissionsLogOfAddingVoteIterator is returned from FilterLogOfAddingVote and is used to iterate over the raw logs and unpacked data for LogOfAddingVote events raised by the Permissions contract.
+type PermissionsLogOfAddingVoteIterator struct {
+	Event *PermissionsLogOfAddingVote // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PermissionsLogOfAddingVoteIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PermissionsLogOfAddingVote)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PermissionsLogOfAddingVote)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PermissionsLogOfAddingVoteIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PermissionsLogOfAddingVoteIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PermissionsLogOfAddingVote represents a LogOfAddingVote event raised by the Permissions contract.
+type PermissionsLogOfAddingVote struct {
+	Id             *big.Int
+	Accountaddress common.Address
+	Enodeaddress   [32]byte
+	Flag           string
+	Vote           bool
+	Raw            types.Log // Blockchain specific contextual infos
+}
+
+// FilterLogOfAddingVote is a free log retrieval operation binding the contract event 0x9ad3ed8a72d9c28e71dfb48742bbfeae3336247ee0919e062de2af58b4921744.
+//
+// Solidity: e LogOfAddingVote(id uint256, accountaddress address, enodeaddress bytes32, flag string, vote bool)
+func (_Permissions *PermissionsFilterer) FilterLogOfAddingVote(opts *bind.FilterOpts) (*PermissionsLogOfAddingVoteIterator, error) {
+
+	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfAddingVote")
+	if err != nil {
+		return nil, err
+	}
+	return &PermissionsLogOfAddingVoteIterator{contract: _Permissions.contract, event: "LogOfAddingVote", logs: logs, sub: sub}, nil
+}
+
+// WatchLogOfAddingVote is a free log subscription operation binding the contract event 0x9ad3ed8a72d9c28e71dfb48742bbfeae3336247ee0919e062de2af58b4921744.
+//
+// Solidity: e LogOfAddingVote(id uint256, accountaddress address, enodeaddress bytes32, flag string, vote bool)
+func (_Permissions *PermissionsFilterer) WatchLogOfAddingVote(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfAddingVote) (event.Subscription, error) {
+
+	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfAddingVote")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PermissionsLogOfAddingVote)
+				if err := _Permissions.contract.UnpackLog(event, "LogOfAddingVote", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -809,14 +1003,14 @@ func (it *PermissionsLogOfResetProcessIterator) Close() error {
 
 // PermissionsLogOfResetProcess represents a LogOfResetProcess event raised by the Permissions contract.
 type PermissionsLogOfResetProcess struct {
-	Previousenode   [32]byte
 	Previousaccount common.Address
+	Previousenode   [32]byte
 	Raw             types.Log // Blockchain specific contextual infos
 }
 
-// FilterLogOfResetProcess is a free log retrieval operation binding the contract event 0x25f36e43cc5e3db240c0fa2585314a51ed767376db5476ea24254b803a327630.
+// FilterLogOfResetProcess is a free log retrieval operation binding the contract event 0x7350a7ef2a3d35fb20258804f114f645300830cdbb8ee760db828576c6fb81e9.
 //
-// Solidity: e LogOfResetProcess(previousenode bytes32, previousaccount address)
+// Solidity: e LogOfResetProcess(previousaccount address, previousenode bytes32)
 func (_Permissions *PermissionsFilterer) FilterLogOfResetProcess(opts *bind.FilterOpts) (*PermissionsLogOfResetProcessIterator, error) {
 
 	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfResetProcess")
@@ -826,9 +1020,9 @@ func (_Permissions *PermissionsFilterer) FilterLogOfResetProcess(opts *bind.Filt
 	return &PermissionsLogOfResetProcessIterator{contract: _Permissions.contract, event: "LogOfResetProcess", logs: logs, sub: sub}, nil
 }
 
-// WatchLogOfResetProcess is a free log subscription operation binding the contract event 0x25f36e43cc5e3db240c0fa2585314a51ed767376db5476ea24254b803a327630.
+// WatchLogOfResetProcess is a free log subscription operation binding the contract event 0x7350a7ef2a3d35fb20258804f114f645300830cdbb8ee760db828576c6fb81e9.
 //
-// Solidity: e LogOfResetProcess(previousenode bytes32, previousaccount address)
+// Solidity: e LogOfResetProcess(previousaccount address, previousenode bytes32)
 func (_Permissions *PermissionsFilterer) WatchLogOfResetProcess(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfResetProcess) (event.Subscription, error) {
 
 	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfResetProcess")
@@ -1054,15 +1248,16 @@ func (it *PermissionsLogOfSuspentionNodeIterator) Close() error {
 
 // PermissionsLogOfSuspentionNode represents a LogOfSuspentionNode event raised by the Permissions contract.
 type PermissionsLogOfSuspentionNode struct {
-	Enodeaddress   [32]byte
+	Id             *big.Int
 	Accountaddress common.Address
+	Enodeaddress   [32]byte
 	Suspend        string
 	Raw            types.Log // Blockchain specific contextual infos
 }
 
-// FilterLogOfSuspentionNode is a free log retrieval operation binding the contract event 0xf60f2e03adb385c167f2b27bb7b23b038ada3fd8274e0515ab8b69113af3639e.
+// FilterLogOfSuspentionNode is a free log retrieval operation binding the contract event 0xc6a6d7a20a1eed76135dfd7ae812dc6a4a6fba50230c0263e4b4de2182a4f970.
 //
-// Solidity: e LogOfSuspentionNode(enodeaddress bytes32, accountaddress address, suspend string)
+// Solidity: e LogOfSuspentionNode(id uint256, accountaddress address, enodeaddress bytes32, suspend string)
 func (_Permissions *PermissionsFilterer) FilterLogOfSuspentionNode(opts *bind.FilterOpts) (*PermissionsLogOfSuspentionNodeIterator, error) {
 
 	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfSuspentionNode")
@@ -1072,9 +1267,9 @@ func (_Permissions *PermissionsFilterer) FilterLogOfSuspentionNode(opts *bind.Fi
 	return &PermissionsLogOfSuspentionNodeIterator{contract: _Permissions.contract, event: "LogOfSuspentionNode", logs: logs, sub: sub}, nil
 }
 
-// WatchLogOfSuspentionNode is a free log subscription operation binding the contract event 0xf60f2e03adb385c167f2b27bb7b23b038ada3fd8274e0515ab8b69113af3639e.
+// WatchLogOfSuspentionNode is a free log subscription operation binding the contract event 0xc6a6d7a20a1eed76135dfd7ae812dc6a4a6fba50230c0263e4b4de2182a4f970.
 //
-// Solidity: e LogOfSuspentionNode(enodeaddress bytes32, accountaddress address, suspend string)
+// Solidity: e LogOfSuspentionNode(id uint256, accountaddress address, enodeaddress bytes32, suspend string)
 func (_Permissions *PermissionsFilterer) WatchLogOfSuspentionNode(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfSuspentionNode) (event.Subscription, error) {
 
 	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfSuspentionNode")
@@ -1089,6 +1284,383 @@ func (_Permissions *PermissionsFilterer) WatchLogOfSuspentionNode(opts *bind.Wat
 				// New log arrived, parse the event and forward to the user
 				event := new(PermissionsLogOfSuspentionNode)
 				if err := _Permissions.contract.UnpackLog(event, "LogOfSuspentionNode", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// PermissionsLogOfSuspentionVoteIterator is returned from FilterLogOfSuspentionVote and is used to iterate over the raw logs and unpacked data for LogOfSuspentionVote events raised by the Permissions contract.
+type PermissionsLogOfSuspentionVoteIterator struct {
+	Event *PermissionsLogOfSuspentionVote // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PermissionsLogOfSuspentionVoteIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PermissionsLogOfSuspentionVote)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PermissionsLogOfSuspentionVote)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PermissionsLogOfSuspentionVoteIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PermissionsLogOfSuspentionVoteIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PermissionsLogOfSuspentionVote represents a LogOfSuspentionVote event raised by the Permissions contract.
+type PermissionsLogOfSuspentionVote struct {
+	Id             *big.Int
+	Accountaddress common.Address
+	Enodeaddress   [32]byte
+	Flag           string
+	Vote           bool
+	Raw            types.Log // Blockchain specific contextual infos
+}
+
+// FilterLogOfSuspentionVote is a free log retrieval operation binding the contract event 0xefddc40bbe0322d1ce33bf7ee3b1633be2a6f6548f15be800ff445d8fb692e28.
+//
+// Solidity: e LogOfSuspentionVote(id uint256, accountaddress address, enodeaddress bytes32, flag string, vote bool)
+func (_Permissions *PermissionsFilterer) FilterLogOfSuspentionVote(opts *bind.FilterOpts) (*PermissionsLogOfSuspentionVoteIterator, error) {
+
+	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfSuspentionVote")
+	if err != nil {
+		return nil, err
+	}
+	return &PermissionsLogOfSuspentionVoteIterator{contract: _Permissions.contract, event: "LogOfSuspentionVote", logs: logs, sub: sub}, nil
+}
+
+// WatchLogOfSuspentionVote is a free log subscription operation binding the contract event 0xefddc40bbe0322d1ce33bf7ee3b1633be2a6f6548f15be800ff445d8fb692e28.
+//
+// Solidity: e LogOfSuspentionVote(id uint256, accountaddress address, enodeaddress bytes32, flag string, vote bool)
+func (_Permissions *PermissionsFilterer) WatchLogOfSuspentionVote(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfSuspentionVote) (event.Subscription, error) {
+
+	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfSuspentionVote")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PermissionsLogOfSuspentionVote)
+				if err := _Permissions.contract.UnpackLog(event, "LogOfSuspentionVote", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// PermissionsLogOfVoteRejectIterator is returned from FilterLogOfVoteReject and is used to iterate over the raw logs and unpacked data for LogOfVoteReject events raised by the Permissions contract.
+type PermissionsLogOfVoteRejectIterator struct {
+	Event *PermissionsLogOfVoteReject // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PermissionsLogOfVoteRejectIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PermissionsLogOfVoteReject)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PermissionsLogOfVoteReject)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PermissionsLogOfVoteRejectIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PermissionsLogOfVoteRejectIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PermissionsLogOfVoteReject represents a LogOfVoteReject event raised by the Permissions contract.
+type PermissionsLogOfVoteReject struct {
+	Id             *big.Int
+	Accountaddress common.Address
+	Enodeaddress   [32]byte
+	Rejectcount    *big.Int
+	Raw            types.Log // Blockchain specific contextual infos
+}
+
+// FilterLogOfVoteReject is a free log retrieval operation binding the contract event 0x7cb4bca1eaf530a5cfb00996c12f042fc783becb68d363236c238c081d013902.
+//
+// Solidity: e LogOfVoteReject(id uint256, accountaddress address, enodeaddress bytes32, rejectcount uint256)
+func (_Permissions *PermissionsFilterer) FilterLogOfVoteReject(opts *bind.FilterOpts) (*PermissionsLogOfVoteRejectIterator, error) {
+
+	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfVoteReject")
+	if err != nil {
+		return nil, err
+	}
+	return &PermissionsLogOfVoteRejectIterator{contract: _Permissions.contract, event: "LogOfVoteReject", logs: logs, sub: sub}, nil
+}
+
+// WatchLogOfVoteReject is a free log subscription operation binding the contract event 0x7cb4bca1eaf530a5cfb00996c12f042fc783becb68d363236c238c081d013902.
+//
+// Solidity: e LogOfVoteReject(id uint256, accountaddress address, enodeaddress bytes32, rejectcount uint256)
+func (_Permissions *PermissionsFilterer) WatchLogOfVoteReject(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfVoteReject) (event.Subscription, error) {
+
+	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfVoteReject")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PermissionsLogOfVoteReject)
+				if err := _Permissions.contract.UnpackLog(event, "LogOfVoteReject", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// PermissionsLogOfVoteRejectConsensusMeetIterator is returned from FilterLogOfVoteRejectConsensusMeet and is used to iterate over the raw logs and unpacked data for LogOfVoteRejectConsensusMeet events raised by the Permissions contract.
+type PermissionsLogOfVoteRejectConsensusMeetIterator struct {
+	Event *PermissionsLogOfVoteRejectConsensusMeet // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PermissionsLogOfVoteRejectConsensusMeetIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PermissionsLogOfVoteRejectConsensusMeet)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PermissionsLogOfVoteRejectConsensusMeet)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PermissionsLogOfVoteRejectConsensusMeetIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PermissionsLogOfVoteRejectConsensusMeetIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PermissionsLogOfVoteRejectConsensusMeet represents a LogOfVoteRejectConsensusMeet event raised by the Permissions contract.
+type PermissionsLogOfVoteRejectConsensusMeet struct {
+	Id             *big.Int
+	Accountaddress common.Address
+	Enodeaddress   [32]byte
+	Isadding       bool
+	Issuspention   bool
+	Raw            types.Log // Blockchain specific contextual infos
+}
+
+// FilterLogOfVoteRejectConsensusMeet is a free log retrieval operation binding the contract event 0x2df2bdee48a50cd1f9880e4e9b7da78d3e20086869d1b784721308ab70815444.
+//
+// Solidity: e LogOfVoteRejectConsensusMeet(id uint256, accountaddress address, enodeaddress bytes32, isadding bool, issuspention bool)
+func (_Permissions *PermissionsFilterer) FilterLogOfVoteRejectConsensusMeet(opts *bind.FilterOpts) (*PermissionsLogOfVoteRejectConsensusMeetIterator, error) {
+
+	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfVoteRejectConsensusMeet")
+	if err != nil {
+		return nil, err
+	}
+	return &PermissionsLogOfVoteRejectConsensusMeetIterator{contract: _Permissions.contract, event: "LogOfVoteRejectConsensusMeet", logs: logs, sub: sub}, nil
+}
+
+// WatchLogOfVoteRejectConsensusMeet is a free log subscription operation binding the contract event 0x2df2bdee48a50cd1f9880e4e9b7da78d3e20086869d1b784721308ab70815444.
+//
+// Solidity: e LogOfVoteRejectConsensusMeet(id uint256, accountaddress address, enodeaddress bytes32, isadding bool, issuspention bool)
+func (_Permissions *PermissionsFilterer) WatchLogOfVoteRejectConsensusMeet(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfVoteRejectConsensusMeet) (event.Subscription, error) {
+
+	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfVoteRejectConsensusMeet")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PermissionsLogOfVoteRejectConsensusMeet)
+				if err := _Permissions.contract.UnpackLog(event, "LogOfVoteRejectConsensusMeet", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1178,15 +1750,15 @@ func (it *PermissionsLogOfaddingConsensusMeetIterator) Close() error {
 
 // PermissionsLogOfaddingConsensusMeet represents a LogOfaddingConsensusMeet event raised by the Permissions contract.
 type PermissionsLogOfaddingConsensusMeet struct {
-	Enode   [32]byte
-	Account common.Address
-	Flag    string
-	Raw     types.Log // Blockchain specific contextual infos
+	Accountaddress common.Address
+	Enodeaddress   [32]byte
+	Flag           string
+	Raw            types.Log // Blockchain specific contextual infos
 }
 
-// FilterLogOfaddingConsensusMeet is a free log retrieval operation binding the contract event 0x103ede1170d1e7714dcce0879255f6f760594d1d78ecf32669fa2790ba6899d9.
+// FilterLogOfaddingConsensusMeet is a free log retrieval operation binding the contract event 0x7486860e51bf4bc8ff65d6a2a93daaa5fafe07f449fec1fee7dd6f4c9a5a9c7d.
 //
-// Solidity: e LogOfaddingConsensusMeet(enode bytes32, account address, flag string)
+// Solidity: e LogOfaddingConsensusMeet(accountaddress address, enodeaddress bytes32, flag string)
 func (_Permissions *PermissionsFilterer) FilterLogOfaddingConsensusMeet(opts *bind.FilterOpts) (*PermissionsLogOfaddingConsensusMeetIterator, error) {
 
 	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfaddingConsensusMeet")
@@ -1196,9 +1768,9 @@ func (_Permissions *PermissionsFilterer) FilterLogOfaddingConsensusMeet(opts *bi
 	return &PermissionsLogOfaddingConsensusMeetIterator{contract: _Permissions.contract, event: "LogOfaddingConsensusMeet", logs: logs, sub: sub}, nil
 }
 
-// WatchLogOfaddingConsensusMeet is a free log subscription operation binding the contract event 0x103ede1170d1e7714dcce0879255f6f760594d1d78ecf32669fa2790ba6899d9.
+// WatchLogOfaddingConsensusMeet is a free log subscription operation binding the contract event 0x7486860e51bf4bc8ff65d6a2a93daaa5fafe07f449fec1fee7dd6f4c9a5a9c7d.
 //
-// Solidity: e LogOfaddingConsensusMeet(enode bytes32, account address, flag string)
+// Solidity: e LogOfaddingConsensusMeet(accountaddress address, enodeaddress bytes32, flag string)
 func (_Permissions *PermissionsFilterer) WatchLogOfaddingConsensusMeet(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfaddingConsensusMeet) (event.Subscription, error) {
 
 	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfaddingConsensusMeet")
@@ -1302,15 +1874,15 @@ func (it *PermissionsLogOfsuspentionConsensusMeetIterator) Close() error {
 
 // PermissionsLogOfsuspentionConsensusMeet represents a LogOfsuspentionConsensusMeet event raised by the Permissions contract.
 type PermissionsLogOfsuspentionConsensusMeet struct {
-	Enode   [32]byte
-	Account common.Address
-	Flag    string
-	Raw     types.Log // Blockchain specific contextual infos
+	Accountaddress common.Address
+	Enodeaddress   [32]byte
+	Flag           string
+	Raw            types.Log // Blockchain specific contextual infos
 }
 
-// FilterLogOfsuspentionConsensusMeet is a free log retrieval operation binding the contract event 0x020064aba293970f316af376011a01158e4563606fd4d2c8402d59879a896ddd.
+// FilterLogOfsuspentionConsensusMeet is a free log retrieval operation binding the contract event 0x1144ea0430fa79179c20ea22367df2c383b2be2c02d580fa417e764d19083d0d.
 //
-// Solidity: e LogOfsuspentionConsensusMeet(enode bytes32, account address, flag string)
+// Solidity: e LogOfsuspentionConsensusMeet(accountaddress address, enodeaddress bytes32, flag string)
 func (_Permissions *PermissionsFilterer) FilterLogOfsuspentionConsensusMeet(opts *bind.FilterOpts) (*PermissionsLogOfsuspentionConsensusMeetIterator, error) {
 
 	logs, sub, err := _Permissions.contract.FilterLogs(opts, "LogOfsuspentionConsensusMeet")
@@ -1320,9 +1892,9 @@ func (_Permissions *PermissionsFilterer) FilterLogOfsuspentionConsensusMeet(opts
 	return &PermissionsLogOfsuspentionConsensusMeetIterator{contract: _Permissions.contract, event: "LogOfsuspentionConsensusMeet", logs: logs, sub: sub}, nil
 }
 
-// WatchLogOfsuspentionConsensusMeet is a free log subscription operation binding the contract event 0x020064aba293970f316af376011a01158e4563606fd4d2c8402d59879a896ddd.
+// WatchLogOfsuspentionConsensusMeet is a free log subscription operation binding the contract event 0x1144ea0430fa79179c20ea22367df2c383b2be2c02d580fa417e764d19083d0d.
 //
-// Solidity: e LogOfsuspentionConsensusMeet(enode bytes32, account address, flag string)
+// Solidity: e LogOfsuspentionConsensusMeet(accountaddress address, enodeaddress bytes32, flag string)
 func (_Permissions *PermissionsFilterer) WatchLogOfsuspentionConsensusMeet(opts *bind.WatchOpts, sink chan<- *PermissionsLogOfsuspentionConsensusMeet) (event.Subscription, error) {
 
 	logs, sub, err := _Permissions.contract.WatchLogs(opts, "LogOfsuspentionConsensusMeet")
