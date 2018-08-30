@@ -33,6 +33,7 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/ethereum/go-ethereum/p2p/netutil"
 	"github.com/ethereum/go-ethereum/p2p/permissions/internalcheck"
+	"strings"
 )
 
 const (
@@ -142,6 +143,8 @@ type Config struct {
 
 	//for permission titan blockchain
  	EnableNodePermission bool `toml:",omitempty"`
+
+	NodeEndPoint string `toml:",omitempty"`
 
  	PermissionAPI string `toml:",omitempty"`
 	// Logger is a custom logger to use with the p2p.Server.
@@ -292,6 +295,9 @@ func (srv *Server) PeerCount() int {
 // server is shut down. If the connection fails for any reason, the server will
 // attempt to reconnect the peer.
 func (srv *Server) AddPeer(node *discover.Node) {
+
+	fmt.Print(srv)
+	fmt.Print(node)
 	select {
 	case srv.addstatic <- node:
 	case <-srv.quit:
@@ -795,6 +801,7 @@ func (srv *Server) listenLoop() {
 	}
 }
 
+
 // SetupConn runs the handshakes and attempts to add the connection
 // as a peer. It returns when the connection has been added as a peer
 // or the handshakes have failed.
@@ -817,6 +824,7 @@ func (srv *Server) SetupConn(fd net.Conn, flags connFlag, dialDest *discover.Nod
 
 
 func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) error {
+
 	// Prevent leftover pending conns from entering the handshake.
 	srv.lock.Lock()
 	running := srv.running
@@ -831,13 +839,11 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 		return err
 	}
 
-
-
-	//starting Titan Premissioning
+	//starting Cobuna Premissioning
 
 	currentNode :=srv.NodeInfo().ID
 	cnodeName :=srv.NodeInfo().Name
-	log.Trace("Titan Permissioning",
+	log.Trace("Cobuna Permissioning",
 			"EnableNodePermission", srv.EnableNodePermission,
 //permissionapi is used for , permission using api call, in modern it is changed to internalcheck
 //			"PermissionAPI", srv.PermissionAPI,
@@ -848,25 +854,53 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 			"Connection String", c.id.String())
 
 	if srv.EnableNodePermission {
-	log.Trace("Node Permissioning is Enabled.")
-	node := c.id.String()
-	direction := "INCOMING"
-	if dialDest != nil {
-		node = dialDest.ID.String()
-		direction = "OUTGOING"
-		log.Trace("Node Permissioning", "Connection Direction", direction)
-	}
+		log.Trace("Node Permissioning is Enabled.")
+		node := c.id.String()
+		direction := "INCOMING"
+		if dialDest != nil {
+			node = dialDest.ID.String()
+			direction = "OUTGOING"
+			log.Trace("Node Permissioning", "Connection Direction", direction)
+		}
 
-	//calls IsNodePermissioned() funciton for permission check, package may be  change to api if we want to
-	//do permissioning using api. it is now depricted
-	if !internalcheck.IsNodePermissioned(node, currentNode, direction) {
-		return errPermission
-	}
+		//split node endpoint by comma
+		s:= strings.Split(srv.NodeEndPoint, ",")
+
+		// pairing node operation
+		var nodeCheckStatus   bool
+
+		for i := 0; i < len(s); i++ {
+
+		//	fmt.Println(s[i])
+
+			// break loop to prevent connection of other node end point  after successfull connection to any
+			if nodeCheckStatus= internalcheck.IsNodePermissioned(node, currentNode, s[i]) ; nodeCheckStatus==true{
+				break
+			}
+		}
+
+
+		//calls IsNodePermissioned() funciton for permission check, package may be  change to api if we want to
+		//do permissioning using api. it is now depricted
+		// error handling if none of end point works
+
+		if !nodeCheckStatus {
+			/*fmt.Println("******start******")
+			fmt.Println(c)
+			fmt.Println(c.id)
+			fmt.Println(c.fd.RemoteAddr())
+			fmt.Println(c.flags)
+			fmt.Println("******end******")*/
+
+			return errPermission
+		}
+
 	} else {
 		log.Trace("Node Permissioning is Disabled.")
 	}
 
 	//END of Titan Permissioning
+
 
 
 

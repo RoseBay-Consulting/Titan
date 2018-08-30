@@ -108,7 +108,9 @@ var (
 		utils.TestnetFlag,
 		utils.RinkebyFlag,
 		utils.TitanFlag,
+		utils.CobunaFlag,
 		utils.EnableNodePermissionFlag,
+		utils.NodeEndPointFlag,  // updated by Tilak
 		utils.VMEnableDebugFlag,
 		utils.NetworkIdFlag,
 		utils.RPCCORSDomainFlag,

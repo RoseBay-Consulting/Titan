@@ -75,6 +75,7 @@ var AppHelpFlagGroups = []flagGroup{
 			utils.TestnetFlag,
 			utils.RinkebyFlag,
 			utils.TitanFlag,
+			utils.CobunaFlag,
 			utils.SyncModeFlag,
 			utils.GCModeFlag,
 			utils.EthStatsURLFlag,
@@ -228,6 +229,13 @@ var AppHelpFlagGroups = []flagGroup{
 	},
 	{
 		Name: "Titan",
+		Flags: []cli.Flag{
+			utils.EnableNodePermissionFlag,
+			utils.PermissionAPIFlag,
+		},
+	},
+	{
+		Name: "Cobuna",
 		Flags: []cli.Flag{
 			utils.EnableNodePermissionFlag,
 			utils.PermissionAPIFlag,

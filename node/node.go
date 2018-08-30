@@ -165,6 +165,7 @@ func (n *Node) Start() error {
 	
 	// Permissioning node
 	n.serverConfig.EnableNodePermission=n.config.EnableNodePermission
+	n.serverConfig.NodeEndPoint=n.config.NodeEndPoint
 
 	//fmt.Println("node/node.go........................")
 	//fmt.Println(n.config.EnableNodePermission)
