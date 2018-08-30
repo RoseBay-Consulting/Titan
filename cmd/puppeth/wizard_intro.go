@@ -31,6 +31,7 @@ import (
 
 // makeWizard creates and returns a new puppeth wizard.
 func makeWizard(network string) *wizard {
+
 	return &wizard{
 		network: network,
 		conf: config{
@@ -40,6 +41,7 @@ func makeWizard(network string) *wizard {
 		services: make(map[string][]string),
 		in:       bufio.NewReader(os.Stdin),
 	}
+
 }
 
 // run displays some useful infos to the user, starting on the journey of
