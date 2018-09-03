@@ -224,7 +224,7 @@ func checkNode(client *sshClient, network string, boot bool) (*nodeInfos, error)
 	if out, err = client.Run(fmt.Sprintf("docker exec %s_%s_1 geth --exec admin.nodeInfo.id attach", network, kind)); err != nil {
 		return nil, ErrServiceUnreachable
 	}
-	id := bytes.Trim(bytes.TrimSpace(out[92:]), "\"")
+	id := bytes.Trim(bytes.TrimSpace(out), "\"")
 
 	if out, err = client.Run(fmt.Sprintf("docker exec %s_%s_1 cat /genesis.json", network, kind)); err != nil {
 		return nil, ErrServiceUnreachable
