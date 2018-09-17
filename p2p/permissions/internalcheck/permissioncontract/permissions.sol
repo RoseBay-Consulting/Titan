@@ -1,8 +1,8 @@
 pragma solidity ^0.4.22;
 
 contract Permissions{
-    /*
-    *Node contains details of nodes and its enode address
+    /**
+    * Node contains details of nodes and its enode address
     */
     struct Node{
         //enode is e-node address of the node
@@ -63,7 +63,7 @@ contract Permissions{
         )
     )public nodeinfo ;
     
-    /*
+    /**
     * Following ten events are used for tracking from the web3 library and interact with offchain.
     */
         
@@ -77,7 +77,8 @@ contract Permissions{
     event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress, string flag, bool vote);
     event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
     event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
-    
+    event LogOfAddingAcceptProposal(address accountaddress, bytes32 enodeaddress);
+    event LogOfSuspentionAcceptProposal(address accountaddress, bytes32 enodeaddress);
     
     
     constructor()
@@ -87,14 +88,14 @@ contract Permissions{
             NodeCount = 0;
         }
  
-    /* 
-    @param _id is id that represent the current transaction and used for the offchain tracking.
-    @param _account is account address of the user
-    @param _enode is enode address of the  node 
-        addNode function enters the enode and account of the proposed node.
-        the node will be eligible to peer with other node when it meets the consensus
-        untill reach to consensus node will be proposed node. If meets the consensus then
-        it will be approved node. it will be signified by the nodeconformations[enode_of_proposed_node]
+    /** 
+    * @param _id is id that represent the current transaction and used for the offchain tracking.
+    * @param _account is account address of the user
+    * @param _enode is enode address of the  node 
+    *    addNode function enters the enode and account of the proposed node.
+    *    the node will be eligible to peer with other node when it meets the consensus
+    *    untill reach to consensus node will be proposed node. If meets the consensus then
+    *    it will be approved node. it will be signified by the nodeconformations[enode_of_proposed_node]
     */
  
     function addNode(uint _id, address _account, bytes32 _enode)
@@ -110,12 +111,12 @@ contract Permissions{
     }
 
 
-    /*
-    @param _id is id that represent the current transaction and used for the offchain tracking.
-    @param _account is account address of the user
-    @param _enode is enode address of the  node 
-        suspendNode will disable the nodeconformations flag (nodeconformations = false)
-        while checking in the phase of handshake it will check the nodeconformations status
+    /**
+    * @param _id is id that represent the current transaction and used for the offchain tracking.
+    * @param _account is account address of the user
+    * @param _enode is enode address of the  node 
+    *    suspendNode will disable the nodeconformations flag (nodeconformations = false)
+    *    while checking in the phase of handshake it will check the nodeconformations status
     */
     
     function suspendNode(uint _id, address _account, bytes32 _enode)
@@ -129,13 +130,13 @@ contract Permissions{
             }
     }
 
-    /*
-    @param _id is id that represent the current transaction and used for the offchain tracking.
-    @param _account is account address of the user
-    @param _enode is enode address of the  node 
-    
-        addnode operation for voteing purpose 
-        else statement is designed in such a way that it cannot be execute.
+    /**
+    * @param _id is id that represent the current transaction and used for the offchain tracking.
+    * @param _account is account address of the user
+    * @param _enode is enode address of the  node 
+    *
+    *    addnode operation for voteing purpose 
+    *    else statement is designed in such a way that it cannot be execute.
     */
 
 function addingVote(uint _id, address _account, bytes32 _enode)
@@ -152,12 +153,12 @@ function addingVote(uint _id, address _account, bytes32 _enode)
 
 
 
-    /*
-    @param _id is id that represent the current transaction and used for the offchain tracking.
-    @param _account is account address of the user
-    @param _enode is enode address of the  node 
-        suspendVote operation for voteing purpose 
-        else statement is designed in such a way that it cannot be execute.        
+    /**
+    * @param _id is id that represent the current transaction and used for the offchain tracking.
+    * @param _account is account address of the user
+    * @param _enode is enode address of the  node 
+    *    suspendVote operation for voteing purpose 
+    *    else statement is designed in such a way that it cannot be execute.        
     */
 
 function suspendVote(uint _id, address _account, bytes32 _enode)
@@ -170,8 +171,8 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
         emit LogOfSuspentionVote(_id, _account, _enode, "suspention", true);
     }
 
-  //checkNode checks the seeking node is eligible to peer with existing network
-    //it will be called by api1--> api2
+      //checkNode checks the seeking node is eligible to peer with existing network
+      //it will be called by api1--> api2
     function checkNode(bytes32 _enode)
         public
         view
@@ -275,13 +276,13 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
     
     
     
-    /*
-    @param _id is id that represent the current transaction and used for the offchain tracking.
-    @param _account is account address of the user
-    @param _enode is enode address of the  node 
-        Negative vote calculation is required for resetting the process of due to comming deadlock and ensure that the consensus will not reach.
-        voteReject funciton is called when reject the vote
-    This is equally valid for both adding and suspention.
+    /**
+    * @param _id is id that represent the current transaction and used for the offchain tracking.
+    * @param _account is account address of the user
+    * @param _enode is enode address of the  node 
+    *    Negative vote calculation is required for resetting the process of due to comming deadlock and ensure that the consensus will not reach.
+    *    voteReject funciton is called when reject the vote
+    * This is equally valid for both adding and suspention.
     */
   
     function voteReject(uint _id, address _account, bytes32 _enode)
@@ -302,9 +303,9 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
     }
     
    
-   /* 
-   acceptConsensus funciton  calculate the total number if vote required to accept the node 
-   @return limit for accept the node 
+   /** 
+   * acceptConsensus funciton  calculate the total number if vote required to accept the node 
+   * @return limit for accept the node 
    */
     function acceptConsensus()
         private 
@@ -319,9 +320,9 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
             }
     }
     
-   /* 
-   Total consensus required to reject the node conformation. 
-   @return limit for reject the node 
+   /** 
+   * Total consensus required to reject the node conformation. 
+   * @return limit for reject the node 
    */
     
     function rejectConsensus()
@@ -337,9 +338,9 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
             }
 
     }
-    /*
-    setConsensus sets the consensus percentage
-    @param _percentage, vote required to accept the node.  
+    /**
+    * setConsensus sets the consensus percentage
+    * @param _percentage , vote required to accept the node.  
     */
      
     function setConsensus(uint _percentage)
@@ -350,9 +351,9 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
             emit LogOfSetConsensus(consensuspercentage);
     }
 
-    /*
-    resetProcess is used to avoid from deadlock on current process 
-    This will be executed when we complete either rejection vote or accept vote for the node.
+    /**
+    * resetProcess is used to avoid from deadlock on current process 
+    * This will be executed when we complete either rejection vote or accept vote for the node.
     */
     function resetProcess()
         public{
@@ -366,5 +367,47 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
             
             emit LogOfResetProcess(previousaccount, previousenode);
     }
-}
 
+
+/**
+ * acceptProposal() accepts the node if the time is out. this function is trigirred by EOA and check the time period offchain
+*/
+
+    function acceptProposal() public{
+        //checks if the process is running or not 
+        assert(isadding || issuspention);
+        if(isadding){
+            
+            //nodeconformations is used for check the node from permissions layers in core chain
+            nodeconformations[previousenode] = true;
+
+            //resetProcess() resets the flags used in operation 
+            resetProcess();
+
+            //NodeCount counts the number of node that are verified by the network.
+            //this will be incremented only if the consensus is reached
+            NodeCount++;
+            //Again calculating the limit of vote for accept and reject, this is due to when ever there is change in NodeCount then 
+            //limit will change 
+            LimitOfVote = acceptConsensus();
+            LimitOfNegVote = rejectConsensus();
+            emit LogOfAddingAcceptProposal(previousaccount,previousenode);
+        }
+        if(issuspention){
+              
+            //set nodeconformations to false and it inticates this node is disabled.
+            nodeconformations[previousenode] = false;
+            
+            //resetProcess() resets the flags used in operation 
+            resetProcess();
+            NodeCount--;
+               
+            //Again calculating the limit of vote for accept and reject, this is due to when ever there is change in NodeCount then 
+            //limit will change 
+            LimitOfVote = acceptConsensus();
+            LimitOfNegVote = rejectConsensus();
+        
+            emit LogOfSuspentionAcceptProposal(previousaccount,previousenode);
+        }
+    }
+}
