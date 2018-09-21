@@ -296,8 +296,8 @@ func (srv *Server) PeerCount() int {
 // attempt to reconnect the peer.
 func (srv *Server) AddPeer(node *discover.Node) {
 
-	fmt.Print(srv)
-	fmt.Print(node)
+	//fmt.Println(srv)
+	//fmt.Println(node)
 	select {
 	case srv.addstatic <- node:
 	case <-srv.quit:
