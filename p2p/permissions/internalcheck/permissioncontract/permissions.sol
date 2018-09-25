@@ -77,8 +77,11 @@ contract Permissions{
     event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress, string flag, bool vote);
     event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
     event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
-    event LogOfAddingAcceptProposal(address accountaddress, bytes32 enodeaddress);
-    event LogOfSuspentionAcceptProposal(address accountaddress, bytes32 enodeaddress);
+    event LogOfAddingAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfSuspentionAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfSuspandNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfAddNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
+    
     
     
     constructor()
@@ -101,12 +104,10 @@ contract Permissions{
     function addNode(uint _id, address _account, bytes32 _enode)
         public{
 
-            if((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _addNode(_id, _account, _enode);
-            }
-            else if((addingmutex == false) && (isadding == false)){
+            if((addingmutex == false) && (isadding == false)){
                 addingmutex = true;
                 _addNode(_id, _account,_enode);
+            emit LogOfAddNodeProposal(_id, _account, _enode);
             }
     }
 
@@ -121,12 +122,11 @@ contract Permissions{
     
     function suspendNode(uint _id, address _account, bytes32 _enode)
         public{
-             if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
-                _suspendNode(_id, _account, _enode);
-            }
-            else if((suspentionmutex == false) && (issuspention == false)){
+          
+             if((suspentionmutex == false) && (issuspention == false)){
                 suspentionmutex = true;
                 _suspendNode(_id, _account,_enode);
+            emit LogOfSuspandNodeProposal(_id, _account, _enode);
             }
     }
 
@@ -143,12 +143,12 @@ function addingVote(uint _id, address _account, bytes32 _enode)
     public{
          if((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
                 _addNode(_id, _account, _enode);
-            }else {
-                 require((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account));
-            }   
+         
         //LogOfAddingVote indicates that, vote is done
          emit LogOfAddingVote(_id, _account, _enode, "adding", true);
-}
+
+         }
+    }
 
 
 
@@ -165,10 +165,8 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
     public{
         if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
                 _suspendNode(_id, _account, _enode);
-        }else{
-            require((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account));
-        }        
         emit LogOfSuspentionVote(_id, _account, _enode, "suspention", true);
+        }
     }
 
       //checkNode checks the seeking node is eligible to peer with existing network
@@ -371,9 +369,10 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
 
 /**
  * acceptProposal() accepts the node if the time is out. this function is trigirred by EOA and check the time period offchain
+ * @param _id is id that represent the current transaction and used for the offchain tracking.
 */
 
-    function acceptProposal() public{
+    function acceptProposal(uint _id) public{
         //checks if the process is running or not 
         assert(isadding || issuspention);
         if(isadding){
@@ -391,7 +390,7 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
             //limit will change 
             LimitOfVote = acceptConsensus();
             LimitOfNegVote = rejectConsensus();
-            emit LogOfAddingAcceptProposal(previousaccount,previousenode);
+            emit LogOfAddingAcceptProposal(_id, previousaccount, previousenode);
         }
         if(issuspention){
               
@@ -407,7 +406,7 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
             LimitOfVote = acceptConsensus();
             LimitOfNegVote = rejectConsensus();
         
-            emit LogOfSuspentionAcceptProposal(previousaccount,previousenode);
+            emit LogOfSuspentionAcceptProposal(_id, previousaccount, previousenode);
         }
     }
 }
