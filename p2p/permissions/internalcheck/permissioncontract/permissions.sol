@@ -67,20 +67,20 @@ contract Permissions{
     * Following ten events are used for tracking from the web3 library and interact with offchain.
     */
         
-    event LogOfAddNode(uint id, address accountaddress, bytes32 enodeaddress, string adding );
-    event LogOfSuspentionNode(uint id, address accountaddress, bytes32 enodeaddress, string suspend);
     event LogOfSetConsensus(uint consensuslimit);
     event LogOfResetProcess(address previousaccount, bytes32 previousenode);
-    event LogOfaddingConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
-    event LogOfsuspentionConsensusMeet(address accountaddress, bytes32 enodeaddress, string flag);
-    event LogOfAddingVote(uint id, address accountaddress, bytes32 enodeaddress, string flag, bool vote);
-    event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress, string flag, bool vote);
-    event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
-    event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
+    event LogOfAddNode(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfAddingConsensusMeet(address accountaddress, bytes32 enodeaddress);
+    event LogOfAddingVote(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfsuspentionConsensusMeet(address accountaddress, bytes32 enodeaddress);
+    event LogOfSuspentionNode(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfAddNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfSuspandNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
     event LogOfAddingAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
     event LogOfSuspentionAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
-    event LogOfSuspandNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
-    event LogOfAddNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
+    event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
     
     
     
@@ -145,7 +145,7 @@ function addingVote(uint _id, address _account, bytes32 _enode)
                 _addNode(_id, _account, _enode);
          
         //LogOfAddingVote indicates that, vote is done
-         emit LogOfAddingVote(_id, _account, _enode, "adding", true);
+         emit LogOfAddingVote(_id, _account, _enode);
 
          }
     }
@@ -165,7 +165,7 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
     public{
         if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
                 _suspendNode(_id, _account, _enode);
-        emit LogOfSuspentionVote(_id, _account, _enode, "suspention", true);
+        emit LogOfSuspentionVote(_id, _account, _enode);
         }
     }
 
@@ -220,11 +220,11 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
                 LimitOfVote = acceptConsensus();
                 LimitOfNegVote = rejectConsensus();
                 
-                emit LogOfaddingConsensusMeet(_account, _enode, "adding");
+                emit LogOfAddingConsensusMeet(_account, _enode);
             }
             previousenode = _enode;
             previousaccount = _account;
-         emit LogOfAddNode(_id, _account, _enode, "addition");
+         emit LogOfAddNode(_id, _account, _enode);
 
     }
 
@@ -265,11 +265,11 @@ function suspendVote(uint _id, address _account, bytes32 _enode)
                 //Dynamic consensus set by the user 
                 LimitOfVote = acceptConsensus();
                 LimitOfNegVote = rejectConsensus();
-            emit LogOfsuspentionConsensusMeet(_account, _enode, "suspension");
+            emit LogOfsuspentionConsensusMeet(_account, _enode);
             }
         previousenode = _enode;
         previousaccount = _account;
-        emit LogOfSuspentionNode(_id, _account, _enode, "suspention");
+        emit LogOfSuspentionNode(_id, _account, _enode);
     }
     
     
