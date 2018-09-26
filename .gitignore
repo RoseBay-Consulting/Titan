@@ -44,11 +44,7 @@ profile.cov
 /dashboard/assets/bundle.js
 /dashboard/assets/package-lock.json
 
-<<<<<<< HEAD
 **/yarn-error.log
 /build/N1
 /build/testnode2
-=======
-**/yarn-error.logg
 /build/Cobuna
->>>>>>> 18ef75dfec61c8922e8f0e52e8572ce65fed5104
