@@ -348,6 +348,7 @@ type dialError struct {
 func (t *dialTask) dial(srv *Server, dest *discover.Node) error {
 	fd, err := srv.Dialer.Dial(dest)
 	if err != nil {
+
 		return &dialError{err}
 	}
 	mfd := newMeteredConn(fd, false)

@@ -128,7 +128,7 @@ var (
 	}
 	NetworkIdFlag = cli.Uint64Flag{
 		Name:  "networkid",
-		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby, 50607102=Titan)",
+		Usage: "Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby, 50607102=Titan,1472583695=Cobuna)",
 		Value: eth.DefaultConfig.NetworkId,
 	}
 	TestnetFlag = cli.BoolFlag{
@@ -142,6 +142,10 @@ var (
 	TitanFlag = cli.BoolFlag{
 		Name:  "titan",
 		Usage: "Titan network: pre-configured proof-of-authority network",
+	}
+	CobunaFlag = cli.BoolFlag{
+		Name:  "cobuna",
+		Usage: "cobuna network: pre-configured proof-of-authority network",
 	}
 	DeveloperFlag = cli.BoolFlag{
 		Name:  "dev",
@@ -547,6 +551,13 @@ var (
 		Usage: "connect the api for permissionig with smart contract",
 
 	}
+
+	NodeEndPointFlag = cli.StringFlag{
+		Name:  "nodeendpoint",
+		Usage: "Comma separated end point url)",
+		Value:"",
+	}
+
 )
 
 // MakeDataDir retrieves the currently requested data directory, terminating
@@ -562,6 +573,9 @@ func MakeDataDir(ctx *cli.Context) string {
 		}
 		if ctx.GlobalBool(TitanFlag.Name) {
 			return filepath.Join(path, "titan")	
+		}
+		if ctx.GlobalBool(CobunaFlag.Name) {
+			return filepath.Join(path, "cobuna")
 		}
 		return path
 	}
@@ -619,6 +633,8 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 		urls = params.RinkebyBootnodes
 	case ctx.GlobalBool(TitanFlag.Name):
 		urls = params.TitanBootnodes
+	case ctx.GlobalBool(CobunaFlag.Name):
+		urls = params.CobunaBootnodes
 	case cfg.BootstrapNodes != nil:
 		return // already set, don't apply defaults.
 	}
@@ -649,6 +665,8 @@ func setBootstrapNodesV5(ctx *cli.Context, cfg *p2p.Config) {
 		urls = params.RinkebyBootnodes
 	case ctx.GlobalBool(TitanFlag.Name):
 		urls = params.TitanBootnodes
+	case ctx.GlobalBool(CobunaFlag.Name):
+		urls = params.CobunaBootnodes
 	case cfg.BootstrapNodesV5 != nil:
 		return // already set, don't apply defaults.
 	}
@@ -900,6 +918,7 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 
 	// For Permissioning
 	cfg.EnableNodePermission=ctx.GlobalBool(EnableNodePermissionFlag.Name)
+	cfg.NodeEndPoint=ctx.GlobalString(NodeEndPointFlag.Name)
 	//for permissioning api endpoint
 //	cfg.PermissionAPI = ctx.GlobalString(PermissionAPIFlag.Name)
 
@@ -916,6 +935,8 @@ func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "rinkeby")
 	case ctx.GlobalBool(TitanFlag.Name):
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "titan")
+	case ctx.GlobalBool(CobunaFlag.Name):
+		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "cobuna")
 	}
 
 	if ctx.GlobalIsSet(KeyStoreDirFlag.Name) {
@@ -1043,7 +1064,7 @@ func SetShhConfig(ctx *cli.Context, stack *node.Node, cfg *whisper.Config) {
 // SetEthConfig applies eth-related command line flags to the config.
 func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 	// Avoid conflicting network flags
-	checkExclusive(ctx, DeveloperFlag, TestnetFlag, RinkebyFlag, TitanFlag)
+	checkExclusive(ctx, DeveloperFlag, TestnetFlag, RinkebyFlag, TitanFlag, CobunaFlag)
 	checkExclusive(ctx, FastSyncFlag, LightModeFlag, SyncModeFlag)
 	checkExclusive(ctx, LightServFlag, LightModeFlag)
 	checkExclusive(ctx, LightServFlag, SyncModeFlag, "light")
@@ -1119,6 +1140,11 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *eth.Config) {
 			cfg.NetworkId = 50607102
 		}
 		cfg.Genesis = core.DefaultTitanGenesisBlock()
+	case ctx.GlobalBool(CobunaFlag.Name):
+		if !ctx.GlobalIsSet(NetworkIdFlag.Name) {
+			cfg.NetworkId = 1472583695
+		}
+		cfg.Genesis = core.DefaultCobunaGenesisBlock()
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		// Create new developer account or reuse existing one
 		var (
@@ -1243,6 +1269,8 @@ func MakeGenesis(ctx *cli.Context) *core.Genesis {
 		genesis = core.DefaultRinkebyGenesisBlock()
 	case ctx.GlobalBool(TitanFlag.Name):
 		genesis = core.DefaultTitanGenesisBlock()
+	case ctx.GlobalBool(CobunaFlag.Name):
+		genesis = core.DefaultCobunaGenesisBlock()
 	case ctx.GlobalBool(DeveloperFlag.Name):
 		Fatalf("Developer chains are ephemeral")
 	}

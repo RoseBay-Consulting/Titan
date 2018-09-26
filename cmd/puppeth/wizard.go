@@ -95,6 +95,8 @@ func (w *wizard) readString() string {
 	for {
 		fmt.Printf("> ")
 		text, err := w.in.ReadString('\n')
+
+
 		if err != nil {
 			log.Crit("Failed to read user input", "err", err)
 		}
