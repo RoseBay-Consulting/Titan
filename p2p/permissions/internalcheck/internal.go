@@ -1,11 +1,11 @@
 package internalcheck
 import	(
 
-"fmt"
-"github.com/ethereum/go-ethereum/log"
-"github.com/ethereum/go-ethereum/common"
-"github.com/ethereum/go-ethereum/ethclient"
-"github.com/ethereum/go-ethereum/p2p/permissions/internalcheck/permissioncontract"
+	"fmt"
+	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/ethereum/go-ethereum/p2p/permissions/internalcheck/permissioncontract"
 )
 
 // var smartContractAddress string ="0x6a44e2c99f909a04c4d08a08279a237e2ad6ee64"
@@ -28,7 +28,7 @@ func isNodePermissioned(nodename string, currentNode string, direction string) b
 
 		//Ready for handshake
 		log.Debug("isNodePermissioned")
-			return true
+		return true
 
 	}else{
 		log.Debug("isNodePermissioned, ledger empty")
@@ -38,10 +38,10 @@ func isNodePermissioned(nodename string, currentNode string, direction string) b
 }
 
 func checkInLedger(nodename string ,direction string) bool {
-//	client,	err	:=	ethclient.Dial("http://18.136.104.41:8501")
+	//	client,	err	:=	ethclient.Dial("http://18.136.104.41:8501")
 	client,	err	:=	ethclient.Dial(direction)
 	if	err	!=	nil	{
-	fmt.Println("error in checkledger : ethclient.dial")
+		fmt.Println("error in checkledger : ethclient.dial")
 	}
 
 	//address is contract
