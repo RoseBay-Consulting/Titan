@@ -76,7 +76,7 @@ contract Permissions{
     event LogOfSuspentionNode(uint id, address accountaddress, bytes32 enodeaddress);
     event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress);
     event LogOfAddNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
-    event LogOfSuspandNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
+    event LogOfSuspendNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
     event LogOfAddingAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
     event LogOfSuspentionAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
     event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
@@ -126,7 +126,7 @@ contract Permissions{
              if((suspentionmutex == false) && (issuspention == false)){
                 suspentionmutex = true;
                 _suspendNode(_id, _account,_enode);
-            emit LogOfSuspandNodeProposal(_id, _account, _enode);
+            emit LogOfSuspendNodeProposal(_id, _account, _enode);
             }
     }
 
@@ -177,7 +177,7 @@ contract Permissions{
             nodeinfo[_account][_enode].account = _account;
              previousenode = _enode;
             previousaccount = _account;
-        emit LogOfAddNodeProposal(_id, _account, _enode);
+        emit LogOfSuspendNodeProposal(_id, _account, _enode);
     }
 
 
