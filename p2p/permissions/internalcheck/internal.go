@@ -12,7 +12,9 @@ import	(
 //var smartContractAddress string ="0x9a292d944522596880fa6adcfcf97db3d20ac6a2"
 //var smartContractAddress string ="0x5df78fc6c7e1a110d1be47d70b4cf570cc6f4e26"
 //var smartContractAddress string ="0xf4b06b25e11407549672ab2a52c863e932a55998"
-var smartContractAddress string ="0x2c07cab2330f325bcdfe02edf1add65eb9c0a846"
+//var smartContractAddress string ="0x2c07cab2330f325bcdfe02edf1add65eb9c0a846"
+//var smartContractAddress string ="0xbfa6d19be3f8695798b492cfa36103e44a85d5b6"
+var smartContractAddress string ="0x55e0040c3f29533b811367975d3b34a214d45504"
 var cc string
 
 func IsNodePermissioned(nodename string, currentNode string, direction string) bool {
