@@ -68,18 +68,31 @@ contract Permissions{
     */
 
     event LogOfSetConsensus(uint consensuslimit);
+
     event LogOfResetProcess(address previousaccount, bytes32 previousenode);
+
     event LogOfAddNode(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfAddingConsensusMeet(address accountaddress, bytes32 enodeaddress);
+
     event LogOfAddingVote(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfsuspentionConsensusMeet(address accountaddress, bytes32 enodeaddress);
+
     event LogOfSuspentionNode(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfSuspentionVote(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfAddNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfSuspendNodeProposal(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfAddingAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfSuspentionAcceptProposal(uint id, address accountaddress, bytes32 enodeaddress);
+
     event LogOfVoteReject(uint id, address accountaddress, bytes32 enodeaddress, uint rejectcount);
+
     event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
 
 
@@ -430,6 +443,9 @@ contract Permissions{
         //checks if the process is running or not
         assert(isadding || issuspention);
         if(isadding){
+
+            //flag represent the particulat node alreay exist in the the network.
+            nodeinfo[previousaccount][previousenode].flag = true;
 
             //nodeconformations is used for check the node from permissions layers in core chain
             nodeconformations[previousenode] = true;
