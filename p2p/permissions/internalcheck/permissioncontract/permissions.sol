@@ -48,8 +48,9 @@ contract Permissions{
 
     //percentage is the consensus to meet (like 50%)
     uint public consensuspercentage;
-    
+   
    //nodeconformations conforms the node to elisible to  connect to the network
+   
    
     mapping(
         bytes32 => bool
@@ -95,8 +96,20 @@ contract Permissions{
     
     event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
     
+    /**
+     * There are three actor actively interacting with the system.
+     * 1. cobuna platform operator account : operator account used set the consensus and to propose the node.
+     * 2. cobuna stakeholder account : cobuna statakeholder accounts interact with the system for vote the proposal. 
+    */
     
-    
+    modifier isoperator(){
+        
+      _;  
+    }
+    modifier isvoter(){
+        
+     _;   
+    }
     constructor()
         public{
             LimitOfVote = 0;
@@ -479,4 +492,58 @@ contract Permissions{
             emit LogOfSuspentionAcceptProposal(_id, previousaccount, previousenode);
         }
     }
+    
+    
+    
+    mapping (address => bool) public operators;
+    
+    //voterindexaccountpair map the index for particular account address
+    mapping (address => uint256) public voterindexaccountpair;
+  
+     
+   //voterindex holds the current number of voter in the system. This is used to sort the address so that we can iterate in minimal cost.
+   uint private voterindex;
+   
+   //voters are voters for the proposal and this used in permissions for milisus entry
+   mapping (address => bool) public voters;
+   
+   //voterlist is list of voters stored in the system.
+   address [] private voterlist;
+   
+    /**
+     * storeAccount stores the account that comes to interact with the system. 
+    */
+    function activeVoterAccount(address account_of_voter) private {
+        require(!voters[account_of_voter]);
+        
+        //we use voters[account_of_voter] while checking the condition whether satisfy the voters
+        voters[account_of_voter] = true;
+        
+        //storing on voterlist
+        voterlist[voterindex] = account_of_voter;
+        voterindexaccountpair[account_of_voter] = voterindex;
+        voterindex++;
+        
+    }
+    /**
+     * removeVoterAccount remove acccount from the system and replace with account in the bottom of the array
+    */
+    
+    function removeVoterAccount(address account_of_voter) private {
+        require(voters[account_of_voter]);
+        voters[account_of_voter] = false;
+        
+        //sorting account in such a way that just removed account is now replace with top of array
+       
+        //copping last element of array of voterlist to vaccent index
+        //index-1 is last element of array as we increased index in activeVoterAccount()
+        
+        voterlist[voterindexaccountpair[account_of_voter]] = voterlist[voterindex-1];
+        
+        //decreasing list as we placed last element in vaccent place
+        voterindex--;
+        
+    }
+    
+    
 }
