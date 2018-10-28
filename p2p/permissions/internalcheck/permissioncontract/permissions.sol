@@ -100,6 +100,7 @@ contract Permissions{
      * There are three actor actively interacting with the system.
      * 1. cobuna platform operator account : operator account used set the consensus and to propose the node.
      * 2. cobuna stakeholder account : cobuna statakeholder accounts interact with the system for vote the proposal. 
+     * 3. accept or reject proposasl at the time of timout
     */
     
     modifier isoperator(){
@@ -107,8 +108,12 @@ contract Permissions{
       _;  
     }
     modifier isvoter(){
-        
-     _;   
+        if(voters[msg.sender]){
+            _;
+        }else{
+            revert();
+        }
+       
     }
     constructor()
         public{
@@ -128,7 +133,8 @@ contract Permissions{
     */
  
     function addNode(uint _id, address _account, bytes32 _enode)
-        public{
+        public
+        isvoter{
 
             if((addingmutex == false) && (isadding == false)){
                 addingmutex = true;
@@ -147,7 +153,8 @@ contract Permissions{
     */
     
     function suspendNode(uint _id, address _account, bytes32 _enode)
-        public{
+        public
+        isvoter{
           
              if((suspentionmutex == false) && (issuspention == false)){
                 suspentionmutex = true;
@@ -220,7 +227,8 @@ contract Permissions{
 
 
     function addingVote(uint _id, address _account, bytes32 _enode)
-        public{
+        public
+        isvoter{
          if((addingmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
                 _addNode(_id, _account, _enode);
          
@@ -242,7 +250,8 @@ contract Permissions{
     */
 
     function suspendVote(uint _id, address _account, bytes32 _enode)
-        public{
+        public
+        isvoter{
             if((suspentionmutex == true) && (previousenode == _enode) && (previousaccount == _account)){
                 _suspendNode(_id, _account, _enode);
         emit LogOfSuspentionVote(_id, _account, _enode);
@@ -288,6 +297,9 @@ contract Permissions{
             
             //nodeconformations is used for check the node from permissions layers in core chain
                 nodeconformations[_enode] = true;
+                
+            //storing account after conformation
+            activeVoterAccount(previousaccount);
 
             //resetProcess() resets the flags used in operation 
                 resetProcess();
@@ -337,6 +349,9 @@ contract Permissions{
 
                 //set nodeconformations to false and it inticates this node is disabled.
                 nodeconformations[_enode] = false;
+                
+                //removing account from the system
+                removeVoterAccount(previousaccount);
               
                 //resetProcess() resets the flags used in operation 
                 resetProcess();
@@ -364,7 +379,8 @@ contract Permissions{
     */
   
     function voteReject(uint _id, address _account, bytes32 _enode)
-        public{
+        public
+        isvoter{
             
             
         if(((suspentionmutex == true) || (addingmutex == true)) && (previousenode == _enode) && (previousaccount == _account)){
@@ -434,7 +450,7 @@ contract Permissions{
     * This will be executed when we complete either rejection vote or accept vote for the node.
     */
     function resetProcess()
-        public{
+        private{
             issuspention = false;
             isadding = false;
             addingmutex = false;
@@ -462,6 +478,9 @@ contract Permissions{
             
             //nodeconformations is used for check the node from permissions layers in core chain
             nodeconformations[previousenode] = true;
+            
+            //storing account after conformation
+            activeVoterAccount(previousaccount);
 
             //resetProcess() resets the flags used in operation 
             resetProcess();
@@ -479,6 +498,9 @@ contract Permissions{
               
             //set nodeconformations to false and it inticates this node is disabled.
             nodeconformations[previousenode] = false;
+            
+            //removing account from the system
+            removeVoterAccount(previousaccount); 
             
             //resetProcess() resets the flags used in operation 
             resetProcess();
@@ -502,13 +524,13 @@ contract Permissions{
   
      
    //voterindex holds the current number of voter in the system. This is used to sort the address so that we can iterate in minimal cost.
-   uint private voterindex;
+   uint public voterindex;
    
    //voters are voters for the proposal and this used in permissions for milisus entry
    mapping (address => bool) public voters;
    
    //voterlist is list of voters stored in the system.
-   address [] private voterlist;
+   address [] public voterlist;
    
     /**
      * storeAccount stores the account that comes to interact with the system. 
@@ -526,14 +548,14 @@ contract Permissions{
         
     }
     /**
-     * removeVoterAccount remove acccount from the system and replace with account in the bottom of the array
+     * removeVoterAccount remove acccount from the system and replace with account in the last element of the array
     */
     
     function removeVoterAccount(address account_of_voter) private {
         require(voters[account_of_voter]);
         voters[account_of_voter] = false;
         
-        //sorting account in such a way that just removed account is now replace with top of array
+        //sorting account in such a way that just removed account is now replace with last of array
        
         //copping last element of array of voterlist to vaccent index
         //index-1 is last element of array as we increased index in activeVoterAccount()
@@ -544,6 +566,5 @@ contract Permissions{
         voterindex--;
         
     }
-    
     
 }
