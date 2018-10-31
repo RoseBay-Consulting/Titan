@@ -96,6 +96,24 @@ contract Permissions{
     
     event LogOfVoteRejectConsensusMeet(uint id, address accountaddress, bytes32 enodeaddress, bool isadding, bool issuspention);
     
+    
+    //newly added logs for storing and deleting the accounts in system 
+    event LogOfRemoveVoterAccount(address accountaddress);
+    
+    event LogOfActiveVoterAccount(address accountaddress);
+    
+    //operator operation on the system 
+
+    event LogOfRemoveOperatorAccount(address accountaddress);
+    
+    event LogOfActiveOperatorAccount(address accountaddress);
+    
+    event LogOfResetOperator(address accountaddress);
+    
+    event LogOfSetOperatorCount(uint256 maxnumberofoperator);
+
+    
+    
     /**
      * There are three actor actively interacting with the system.
      * 1. cobuna platform operator account : operator account used set the consensus and to propose the node.
@@ -517,7 +535,7 @@ contract Permissions{
     
     
     
-    mapping (address => bool) public operators;
+   
     
     //voterindexaccountpair map the index for particular account address
     mapping (address => uint256) public voterindexaccountpair;
@@ -534,6 +552,7 @@ contract Permissions{
    
     /**
      * storeAccount stores the account that comes to interact with the system. 
+     * @param account_of_voter is account to store in the system
     */
     function activeVoterAccount(address account_of_voter) private {
         require(!voters[account_of_voter]);
@@ -545,10 +564,13 @@ contract Permissions{
         voterlist[voterindex] = account_of_voter;
         voterindexaccountpair[account_of_voter] = voterindex;
         voterindex++;
+        emit LogOfActiveVoterAccount(account_of_voter);
         
     }
+    
     /**
      * removeVoterAccount remove acccount from the system and replace with account in the last element of the array
+     * @param account_of_voter is account to remove fron the system.
     */
     
     function removeVoterAccount(address account_of_voter) private {
@@ -562,9 +584,174 @@ contract Permissions{
         
         voterlist[voterindexaccountpair[account_of_voter]] = voterlist[voterindex-1];
         
+        
         //decreasing list as we placed last element in vaccent place
         voterindex--;
+        emit LogOfRemoveVoterAccount(account_of_voter);
+      
+    }
+    
+    /**
+     * Specially for operator set, reset and change also storing and removing the address of operator 
+    */
+    
+    /**
+     * operator holds the information about operator!
+    */
+    struct operator{
+        //id is identification of an operator
+        bytes32 id;
+        
+        //operator accountaddress used in sign the transaction in proposal phase and setting consensus
+        
+        address accountaddress;
         
     }
     
+    //operatorindexaccountpair map the index for particular account address
+    mapping (address => uint256) public operatorindexaccountpair;
+  
+     
+    //operatorindex holds the current number of operator in the system. This is used to sort the address so that we can iterate in minimal cost.
+    uint public operatorindex;
+   
+    //voters are voters for the proposal and this used in permissions for milisus entry
+    mapping (address => bool) public operators;
+   
+    //voterlist is list of voters stored in the system.
+    address [] public operatorlist;
+   
+    /**
+     * activeOperatorAccount stores the account that comes to interact with the system. 
+     * @param account_of_operator account which need to store in the system
+    */
+    
+    function activeOperatorAccount(address account_of_operator) 
+    private
+    returns(bool){
+        require(!operators[account_of_operator]);
+        
+        //we use operators[account_of_voter] while checking the condition whether satisfy the operators
+        operators[account_of_operator] = true;
+        
+        //storing on operatorlist
+        operatorlist[voterindex] = account_of_operator;
+        operatorindexaccountpair[account_of_operator] = operatorindex;
+        operatorindex++;
+        emit LogOfActiveOperatorAccount(account_of_operator);
+        return true;
+    }
+    
+    /**
+     * removeOperatorAccount remove acccount from the system and replace with account in the last element of the array
+     * @param account_of_operator is account to remove from the system. 
+     * This contract function will only access by the operators.
+     * @return status - true on success and false on failure
+    */
+    
+    function removeOperatorAccount(address account_of_operator) 
+    public 
+    returns(bool status){
+        require(operators[account_of_operator]);
+        operators[account_of_operator] = false;
+        
+        //sorting account in such a way that just removed account is now replace with last of array
+       
+        //copping last element of array of operatorlist to vaccent index
+        //index-1 is last element of array as we increased index in activeOperatorAccount()
+        
+        operatorlist[operatorindexaccountpair[account_of_operator]] = operatorlist[operatorindex-1];
+        
+        //decreasing list as we placed last element in vaccent place
+        operatorindex--;
+        emit LogOfRemoveOperatorAccount(account_of_operator);
+      return true;
+    }
+    
+    /**
+     * operatorEntry() for activities to enter into the system and store the account.
+     * there are two conditions
+     * 1. for initial intry
+     * 2. for manula change for number of operator
+     * @return true if successfully stored an account in the system.
+    
+    */
+    function operatorEntry() 
+    public
+    returns(bool){
+        
+        //for the first time storing account as operator account 
+        //operator account cannot be stored twice. 
+        //In case same operator hits the contract twice ,
+        //then it is handled on storing time.
+        
+        if((operatorindex) == 0){
+            require(activeOperatorAccount(msg.sender));
+            return true;
+        }
+        
+        
+        //for the first time operator is stored directly. 
+        //if node owner wants to add multiple account as operator
+        //Or if this first account private key is lost then we need 
+        //another account and system have to work properly.
+        
+      
+        //if max number of operator is set other then default by the operator initially stored in the system.
+        //then there will be operator greater then default value. Default value is zero.
+      /**
+       * operatorindex, maxnumberofoperator,testing(true/false)
+       * in case of not changing operator count from default 
+       * 1 , 0 , t
+       * 
+       * in case of changing operator other then zero
+       * 
+       * 1,1, t
+       * 1,2, t
+       * 2,1, f
+       * 2,2, t
+       * 2,3, t
+      
+      */
+        //operatorindex already become 1
+        //this if condition will satisfy only at maxnumberofoperator is default value
+       
+        else if(operatorindex <= maxnumberofoperator){
+            require(activeOperatorAccount(msg.sender));
+            return true;
+        }
+        else revert();
+     }
+    
+    //maximum number of operator allowed in the system
+    uint256 maxnumberofoperator ;
+   
+    //setOperatorCount() will call by the operator that already stored in the system.
+    function setOperatorCount(uint256 number_of_operators){
+        maxnumberofoperator = number_of_operators;
+        
+        emit LogOfSetOperatorCount(maxnumberofoperator);
+        
+    }
+    
+    /**
+     * if operator is out of control and need to change by the node owner
+     * vote by the node owner to set the new operator. 
+     * this function is only execute by the node owners
+     * this is only for critical case of operator
+     * max number of operator also set to 0 inorder to start work again from begaining
+     * 
+    */
+    
+    function resetOperator() public {
+        
+        //maxnumberofoperator and operatorindex is set to zero so we can start new process for the operator.
+        maxnumberofoperator = 0;
+        
+        operatorindex = 0;
+        
+        //emit the event so we can track which account involved in resetting the process.
+        
+        emit LogOfResetOperator(msg.sender);
+    }
 }
