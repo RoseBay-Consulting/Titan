@@ -102,6 +102,8 @@ contract Permissions{
     
     event LogOfActiveVoterAccount(address accountaddress);
     
+    event LogOfOperatorSetConsensus(uint consensuslimit);
+    
     //operator operation on the system 
 
     event LogOfRemoveOperatorAccount(address accountaddress);
@@ -111,6 +113,8 @@ contract Permissions{
     event LogOfResetOperator(address accountaddress);
     
     event LogOfSetOperatorCount(uint256 maxnumberofoperator);
+    
+    event LogOfAddressOfProposalAcceptorEntry(address accountaddress);
 
     
     
@@ -122,8 +126,12 @@ contract Permissions{
     */
     
     modifier isoperator(){
-        
-      _;  
+          if(operators[msg.sender]){
+            _;
+        }else{
+            revert();
+        }
+       
     }
     modifier isvoter(){
         if(voters[msg.sender]){
@@ -133,6 +141,19 @@ contract Permissions{
         }
        
     }
+    
+    
+    modifier isproposalaccepter(){
+        if(addressofproposalacceptor == msg.sender){
+            _;
+        }else {
+            revert();
+        }
+        
+        
+    }
+    
+    
     constructor()
         public{
             LimitOfVote = 0;
@@ -140,46 +161,6 @@ contract Permissions{
             NodeCount = 0;
         }
  
-    /** 
-    * @param _id is id that represent the current transaction and used for the offchain tracking.
-    * @param _account is account address of the user
-    * @param _enode is enode address of the  node 
-    *    addNode function enters the enode and account of the proposed node.
-    *    the node will be eligible to peer with other node when it meets the consensus
-    *    untill reach to consensus node will be proposed node. If meets the consensus then
-    *    it will be approved node. it will be signified by the nodeconformations[enode_of_proposed_node]
-    */
- 
-    function addNode(uint _id, address _account, bytes32 _enode)
-        public
-        isvoter{
-
-            if((addingmutex == false) && (isadding == false)){
-                addingmutex = true;
-                _addNode(_id, _account,_enode);
-            emit LogOfAddNodeProposal(_id, _account, _enode);
-            }
-    }
-
-
-    /**
-    * @param _id is id that represent the current transaction and used for the offchain tracking.
-    * @param _account is account address of the user
-    * @param _enode is enode address of the  node 
-    *    suspendNode will disable the nodeconformations flag (nodeconformations = false)
-    *    while checking in the phase of handshake it will check the nodeconformations status
-    */
-    
-    function suspendNode(uint _id, address _account, bytes32 _enode)
-        public
-        isvoter{
-          
-             if((suspentionmutex == false) && (issuspention == false)){
-                suspentionmutex = true;
-                _suspendNode(_id, _account,_enode);
-            emit LogOfSuspendNodeProposal(_id, _account, _enode);
-            }
-    }
 
 
     /** 
@@ -193,7 +174,8 @@ contract Permissions{
     */
  
     function addNodeProposal(uint _id, address _account, bytes32 _enode)
-        public{
+        public
+       isoperator{
             require((suspentionmutex == false) && (addingmutex == false));
             require((isadding == false) && (issuspention == false));
             require(!nodeconformations[_enode]);
@@ -217,7 +199,8 @@ contract Permissions{
     */
     
     function suspendNodeProposal(uint _id, address _account, bytes32 _enode)
-        public{
+        public
+        isoperator{
             require((suspentionmutex == false) && (addingmutex == false));
             require((isadding == false) && (issuspention == false));
             require(nodeconformations[_enode]);
@@ -450,13 +433,15 @@ contract Permissions{
             }
 
     }
+    
     /**
     * setConsensus sets the consensus percentage
     * @param _percentage , vote required to accept the node.  
     */
      
     function setConsensus(uint _percentage)
-        public {
+        public 
+        isoperator{
             //checking range of percentage , 0 <= _percentage => 100 
             require((_percentage >= 0) && (_percentage <= 100 ));
             consensuspercentage = _percentage;    
@@ -486,7 +471,9 @@ contract Permissions{
  * @param _id is id that represent the current transaction and used for the offchain tracking.
 */
 
-    function acceptProposal(uint _id) public{
+    function acceptProposal(uint _id)
+        public
+        isproposalaccepter{
         //checks if the process is running or not 
         assert(isadding || issuspention);
         if(isadding){
@@ -534,7 +521,9 @@ contract Permissions{
     }
     
     
-    
+   /**
+    * Below voters management 
+   */ 
    
     
     //voterindexaccountpair map the index for particular account address
@@ -592,6 +581,7 @@ contract Permissions{
     }
     
     /**
+     * 
      * Specially for operator set, reset and change also storing and removing the address of operator 
     */
     
@@ -651,6 +641,7 @@ contract Permissions{
     
     function removeOperatorAccount(address account_of_operator) 
     public 
+    isoperator
     returns(bool status){
         require(operators[account_of_operator]);
         operators[account_of_operator] = false;
@@ -671,7 +662,7 @@ contract Permissions{
     /**
      * operatorEntry() for activities to enter into the system and store the account.
      * there are two conditions
-     * 1. for initial intry
+     * 1. for initial entry
      * 2. for manula change for number of operator
      * @return true if successfully stored an account in the system.
     
@@ -724,10 +715,15 @@ contract Permissions{
      }
     
     //maximum number of operator allowed in the system
-    uint256 maxnumberofoperator ;
+    uint256 public maxnumberofoperator ;
+    
+    //voters vote for resetOperator() to reset the operator entry aggain
+    uint256 public votesforoperatorcounter;
    
     //setOperatorCount() will call by the operator that already stored in the system.
-    function setOperatorCount(uint256 number_of_operators){
+    function setOperatorCount(uint256 number_of_operators)
+    public 
+    isoperator{
         maxnumberofoperator = number_of_operators;
         
         emit LogOfSetOperatorCount(maxnumberofoperator);
@@ -743,8 +739,13 @@ contract Permissions{
      * 
     */
     
-    function resetOperator() public {
+    function resetOperator() 
+    public 
+    isvoter{
         
+       if(votesforoperatorcounter == acceptOperatorConsensus()){
+          
+       
         //maxnumberofoperator and operatorindex is set to zero so we can start new process for the operator.
         maxnumberofoperator = 0;
         
@@ -753,5 +754,67 @@ contract Permissions{
         //emit the event so we can track which account involved in resetting the process.
         
         emit LogOfResetOperator(msg.sender);
+       }else{
+           votesforoperatorcounter++;
+           emit LogOfResetOperator(msg.sender);
+           
+       }
     }
+    
+    
+   //operatorconsensuspercentage is used for number of voters required to set the new consensus from the default value. 
+    uint256 public operatorconsensuspercentage;
+    
+    
+    /**
+    * setOperatorConsensus sets the consensus percentage
+    * @param _percentage , vote required to accept the node.  
+    */
+    
+    function setOperatorConsensus(uint _percentage)
+        public 
+        isoperator{
+            //checking range of percentage , 0 <= _percentage => 100 
+            require((_percentage >= 0) && (_percentage <= 100 ));
+            operatorconsensuspercentage = _percentage;    
+            emit LogOfOperatorSetConsensus(operatorconsensuspercentage);
+    }
+
+    
+    
+   /** 
+    * acceptOperatorConsensus funciton  calculate the total number if vote required to accept the Operator 
+    * @return limit of vote for accept an Operator 
+   */
+    function acceptOperatorConsensus()
+        private 
+        view
+        returns(uint limit){
+            //just setting  ~50%. 
+            limit = ((operatorconsensuspercentage*(voterindex-1)/100));
+           //checking overflow
+            if (limit >= voterindex){
+                return voterindex;
+            }else {
+                return limit;
+            }
+    }
+
+    //Below for proposal acceptor.
+    
+    address public addressofproposalacceptor;
+    
+    /**
+     * proposalaccepterEntry() function replace previous account of proposal acceptor with new address.
+     * @param _addressofproposalacceptor is address of new proposal acceptor account
+    */
+    
+    function proposalaccepterEntry(address _addressofproposalacceptor)
+    public
+    isoperator{ 
+        addressofproposalacceptor = _addressofproposalacceptor;
+        emit LogOfAddressOfProposalAcceptorEntry(addressofproposalacceptor);
+    }
+
+ 
 }
