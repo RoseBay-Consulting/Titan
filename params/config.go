@@ -27,7 +27,7 @@ var (
 	MainnetGenesisHash = common.HexToHash("0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3") // Mainnet genesis hash to enforce below configs on
 	TestnetGenesisHash = common.HexToHash("0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d") // Testnet genesis hash to enforce below configs on
 	TitanGenesisHash = common.HexToHash("0x663fb5296d1c1bb60392585cbce9fcb2391e3ea0dfe3c57bfac93ef91ff61288") // Titan genesis hash to enforce below configs on
-	CobunaGenesisHash = common.HexToHash("0xdc6bc802483ca8951ccee6e2e17a3a9d6d2985b7c9d059ed90324027c65626ae") // Cobuna genesis hash to enforce below configs on
+	CobunaGenesisHash = common.HexToHash("0x5c1363399a5f5a3f1a201c4e8de20533bc82f9d11dcda4b1be82d47cca3a3e66") // Cobuna genesis hash to enforce below configs on
 )
 
 var (
