@@ -16,7 +16,7 @@ import	(
 //var smartContractAddress string ="0xbfa6d19be3f8695798b492cfa36103e44a85d5b6"
 //var smartContractAddress string ="0x55e0040c3f29533b811367975d3b34a214d45504"
 //var smartContractAddress string ="0x34e199daf1887985bf5767da7e99a34c5781c48e"
-var smartContractAddress string ="0xdda3e67dccf5ac1a22f84ef25fc7b52906f62599"
+var smartContractAddress string ="0x8149fc35f19ae71eedf64a878f1dc64f80cda044"
 var cc string
 
 func IsNodePermissioned(nodename string, currentNode string, direction string) bool {
