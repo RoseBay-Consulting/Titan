@@ -33,7 +33,10 @@ import (
 	"github.com/ethereum/go-ethereum/p2p/nat"
 	"github.com/ethereum/go-ethereum/p2p/netutil"
 	"github.com/ethereum/go-ethereum/p2p/permissions/internalcheck"
-	"strings"
+	"encoding/json"
+	"net/http"
+	"bytes"
+	"io/ioutil"
 )
 
 const (
@@ -54,6 +57,14 @@ const (
 
 var errServerStopped = errors.New("server stopped")
 var errPermission = errors.New("You are not authorized node")
+
+type Response struct {
+	Status    string    `json:"status"`
+	Test    string    `json:"test"`
+	Message    string    `json:"message"`
+	EndPoints []string `json:"endPoints"`
+	//	Pokemon []Pokemon `json:"pokemon_entries"`
+}
 
 // Config holds Server options.
 type Config struct {
@@ -863,11 +874,52 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 			log.Trace("Node Permissioning", "Connection Direction", direction)
 		}
 
-		//split node endpoint by comma
-		s:= strings.Split(srv.NodeEndPoint, ",")
+
+
+		//tilak testing
+		jsonData := map[string]string{"test": "I am Tilak"}
+		jsonValue, _ := json.Marshal(jsonData)
+	//	response, err := http.Post("https://dm0fpx25wg.execute-api.ap-southeast-1.amazonaws.com/test/check", "application/json", bytes.NewBuffer(jsonValue))
+		response, err := http.Post(srv.NodeEndPoint, "application/json", bytes.NewBuffer(jsonValue))
+
+		if err != nil {
+			fmt.Print(err.Error())
+		//	os.Exit(1)
+		}
+
+		responseData, err := ioutil.ReadAll(response.Body)
+
+		var responseObject Response
+		json.Unmarshal(responseData, &responseObject)
+
+	//	fmt.Println(responseObject.Status)
+	//	fmt.Println(responseObject.Test)
+	//	fmt.Println(responseObject.Message)
+	//	fmt.Println(len(responseObject.EndPoints))
 
 		// pairing node operation
 		var nodeCheckStatus   bool
+
+
+		for i := 0; i < len(responseObject.EndPoints); i++ {
+				fmt.Println(responseObject.EndPoints[i])
+
+			//	fmt.Println(s[i])
+
+			// break loop to prevent connection of other node end point  after successfull connection to any
+			if nodeCheckStatus= internalcheck.IsNodePermissioned(node, currentNode, responseObject.EndPoints[i]) ; nodeCheckStatus==true{
+				break
+			}
+
+		}
+
+
+		//tilak testing
+/*
+		//split node endpoint by comma
+		s:= strings.Split(srv.NodeEndPoint, ",")
+
+
 
 		for i := 0; i < len(s); i++ {
 
@@ -878,7 +930,7 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 				break
 			}
 		}
-
+*/
 
 		//calls IsNodePermissioned() funciton for permission check, package may be  change to api if we want to
 		//do permissioning using api. it is now depricted
