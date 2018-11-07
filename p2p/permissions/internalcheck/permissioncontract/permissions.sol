@@ -537,7 +537,7 @@ contract Permissions{
    mapping (address => bool) public voters;
    
    //voterlist is list of voters stored in the system.
-   address [] public voterlist;
+   mapping (uint256 => address) voterlist;
    
     /**
      * storeAccount stores the account that comes to interact with the system. 
@@ -584,20 +584,7 @@ contract Permissions{
      * 
      * Specially for operator set, reset and change also storing and removing the address of operator 
     */
-    
-    /**
-     * operator holds the information about operator!
-    */
-    struct operator{
-        //id is identification of an operator
-        bytes32 id;
-        
-        //operator accountaddress used in sign the transaction in proposal phase and setting consensus
-        
-        address accountaddress;
-        
-    }
-    
+  
     //operatorindexaccountpair map the index for particular account address
     mapping (address => uint256) public operatorindexaccountpair;
   
@@ -605,11 +592,11 @@ contract Permissions{
     //operatorindex holds the current number of operator in the system. This is used to sort the address so that we can iterate in minimal cost.
     uint public operatorindex;
    
-    //voters are voters for the proposal and this used in permissions for milisus entry
+   //operators used for avoiding duplication
     mapping (address => bool) public operators;
    
-    //voterlist is list of voters stored in the system.
-    address [] public operatorlist;
+    //operatorlist is list of voters stored in the system.
+    mapping (uint256 => address) operatorlist;
    
     /**
      * activeOperatorAccount stores the account that comes to interact with the system. 
@@ -625,7 +612,7 @@ contract Permissions{
         operators[account_of_operator] = true;
         
         //storing on operatorlist
-        operatorlist[voterindex] = account_of_operator;
+        operatorlist[operatorindex] = account_of_operator;
         operatorindexaccountpair[account_of_operator] = operatorindex;
         operatorindex++;
         emit LogOfActiveOperatorAccount(account_of_operator);
