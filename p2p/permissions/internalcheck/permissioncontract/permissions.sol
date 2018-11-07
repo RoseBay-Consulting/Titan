@@ -683,7 +683,8 @@ contract Permissions{
      * this accout will be stored in the system for interaction with the system
     */
     function newOperator(address _account_of_operator)
-    public{
+    public
+    isoperator{
         require(activeOperatorAccount(_account_of_operator));
         
     }   
