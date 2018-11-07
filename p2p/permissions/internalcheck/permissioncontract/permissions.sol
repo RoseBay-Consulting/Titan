@@ -667,55 +667,27 @@ contract Permissions{
             require(activeOperatorAccount(msg.sender));
             return true;
         }
-        
-        
-        //for the first time operator is stored directly. 
-        //if node owner wants to add multiple account as operator
-        //Or if this first account private key is lost then we need 
-        //another account and system have to work properly.
-        
-      
-        //if max number of operator is set other then default by the operator initially stored in the system.
-        //then there will be operator greater then default value. Default value is zero.
-      /**
-       * operatorindex, maxnumberofoperator,testing(true/false)
-       * in case of not changing operator count from default 
-       * 1 , 0 , t
-       * 
-       * in case of changing operator other then zero
-       * 
-       * 1,1, t
-       * 1,2, t
-       * 2,1, f
-       * 2,2, t
-       * 2,3, t
-      
-      */
-        //operatorindex already become 1
-        //this if condition will satisfy only at maxnumberofoperator is default value
+        return false;
+    }
        
-        else if(operatorindex <= maxnumberofoperator){
-            require(activeOperatorAccount(msg.sender));
-            return true;
-        }
-        else revert();
-     }
+       
     
-    //maximum number of operator allowed in the system
-    uint256 public maxnumberofoperator ;
     
     //voters vote for resetOperator() to reset the operator entry aggain
     uint256 public votesforoperatorcounter;
    
-    //setOperatorCount() will call by the operator that already stored in the system.
-    function setOperatorCount(uint256 number_of_operators)
-    public 
-    isoperator{
-        maxnumberofoperator = number_of_operators;
+   
+    /**
+     * to enter into the system as new operator firstly operator have the privilige to entry
+     * @param _account_of_operator is new operator account
+     * this accout will be stored in the system for interaction with the system
+    */
+    function newOperator(address _account_of_operator)
+    public{
+        require(activeOperatorAccount(_account_of_operator));
         
-        emit LogOfSetOperatorCount(maxnumberofoperator);
-        
-    }
+    }   
+      
     
     /**
      * if operator is out of control and need to change by the node owner
@@ -732,14 +704,9 @@ contract Permissions{
         
        if(votesforoperatorcounter == acceptOperatorConsensus()){
           
-       
-        //maxnumberofoperator and operatorindex is set to zero so we can start new process for the operator.
-        maxnumberofoperator = 0;
-        
         operatorindex = 0;
         
         //emit the event so we can track which account involved in resetting the process.
-        
         emit LogOfResetOperator(msg.sender);
        }else{
            votesforoperatorcounter++;
