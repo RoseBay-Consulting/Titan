@@ -112,8 +112,6 @@ contract Permissions{
     
     event LogOfResetOperator(address accountaddress);
     
-    event LogOfSetOperatorCount(uint256 maxnumberofoperator);
-    
     event LogOfAddressOfProposalAcceptorEntry(address accountaddress);
 
     
@@ -133,8 +131,10 @@ contract Permissions{
         }
        
     }
+    
+    
     modifier isvoter(){
-        if(voters[msg.sender]){
+        if((voters[msg.sender]) || (voterindex == 0)){
             _;
         }else{
             revert();
@@ -770,6 +770,4 @@ contract Permissions{
         addressofproposalacceptor = _addressofproposalacceptor;
         emit LogOfAddressOfProposalAcceptorEntry(addressofproposalacceptor);
     }
-
- 
 }
