@@ -880,11 +880,17 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 		jsonData := map[string]string{"test": "I am Tilak"}
 		jsonValue, _ := json.Marshal(jsonData)
 	//	response, err := http.Post("https://dm0fpx25wg.execute-api.ap-southeast-1.amazonaws.com/test/check", "application/json", bytes.NewBuffer(jsonValue))
-		response, err := http.Post(srv.NodeEndPoint, "application/json", bytes.NewBuffer(jsonValue))
+
+		netClient := &http.Client{
+			Timeout: time.Second * 10,
+		}
+		response, err := netClient.Post(srv.NodeEndPoint, "application/json", bytes.NewBuffer(jsonValue))
+		//response, err := http.Post(srv.NodeEndPoint, "application/json", bytes.NewBuffer(jsonValue))
 
 		if err != nil {
 			fmt.Print(err.Error())
-		//	os.Exit(1)
+			return  err
+			//	os.Exit(1)
 		}
 
 		responseData, err := ioutil.ReadAll(response.Body)
@@ -892,17 +898,11 @@ func (srv *Server) setupConn(c *conn, flags connFlag, dialDest *discover.Node) e
 		var responseObject Response
 		json.Unmarshal(responseData, &responseObject)
 
-	//	fmt.Println(responseObject.Status)
-	//	fmt.Println(responseObject.Test)
-	//	fmt.Println(responseObject.Message)
-	//	fmt.Println(len(responseObject.EndPoints))
-
 		// pairing node operation
 		var nodeCheckStatus   bool
 
-
 		for i := 0; i < len(responseObject.EndPoints); i++ {
-				fmt.Println(responseObject.EndPoints[i])
+			//	fmt.Println(responseObject.EndPoints[i])
 
 			//	fmt.Println(s[i])
 
