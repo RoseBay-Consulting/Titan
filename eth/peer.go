@@ -28,6 +28,8 @@ import (
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rlp"
 	"gopkg.in/fatih/set.v0"
+	"github.com/ethereum/go-ethereum/benchmarking"
+	"strconv"
 )
 
 var (
@@ -223,8 +225,13 @@ func (p *peer) SendNewBlockHashes(hashes []common.Hash, numbers []uint64) error 
 	}
 	request := make(newBlockHashesData, len(hashes))
 	for i := 0; i < len(hashes); i++ {
+
+		//vm
+		benchmarking.Writeincsv(" SendNewBlockHashes  number if hashes -> " + strconv.Itoa(len(hashes)), "eth/peer.go,")
+
 		request[i].Hash = hashes[i]
 		request[i].Number = numbers[i]
+
 	}
 	return p2p.Send(p.rw, NewBlockHashesMsg, request)
 }
