@@ -23,6 +23,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereum/go-ethereum/benchmarking"
+	"strconv"
 )
 
 // headerRetriever is used by the unconfirmed block set to verify whether a previously
@@ -79,6 +81,10 @@ func (set *unconfirmedBlocks) Insert(index uint64, hash common.Hash) {
 		set.blocks.Move(-1).Link(item)
 	}
 	// Display a log for the user to notify of a new mined block unconfirmed
+
+	//bm
+	benchmarking.Writeincsv("  mined potential block -> " + strconv.FormatUint(index,10) ,"unconformend.go")
+
 	log.Info("🔨 mined potential block", "number", index, "hash", hash)
 }
 

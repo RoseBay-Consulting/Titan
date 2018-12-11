@@ -23,6 +23,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/consensus"
 	"github.com/ethereum/go-ethereum/log"
+	"github.com/ethereum/go-ethereum/benchmarking"
 )
 
 type CpuAgent struct {
@@ -102,6 +103,11 @@ out:
 func (self *CpuAgent) mine(work *Work, stop <-chan struct{}) {
 	if result, err := self.engine.Seal(self.chain, work.Block, stop); result != nil {
 		log.Info("Successfully sealed new block", "number", result.Number(), "hash", result.Hash())
+
+		//bm
+		benchmarking.Writeincsv(" Successfully sealed new block - > " + result.Number().String() ,"clique.go")
+
+
 		self.returnCh <- &Result{work, result}
 	} else {
 		if err != nil {

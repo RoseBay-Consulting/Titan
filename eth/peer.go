@@ -242,6 +242,10 @@ func (p *peer) SendNewBlockHashes(hashes []common.Hash, numbers []uint64) error 
 func (p *peer) AsyncSendNewBlockHash(block *types.Block) {
 	select {
 	case p.queuedAnns <- block:
+
+		//vm
+		benchmarking.Writeincsv(" AsyncSendNewBlockHash -> " + strconv.FormatUint(block.NumberU64(),10), "eth/peer.go,")
+
 		p.knownBlocks.Add(block.Hash())
 	default:
 		p.Log().Debug("Dropping block announcement", "number", block.NumberU64(), "hash", block.Hash())
@@ -259,6 +263,10 @@ func (p *peer) SendNewBlock(block *types.Block, td *big.Int) error {
 func (p *peer) AsyncSendNewBlock(block *types.Block, td *big.Int) {
 	select {
 	case p.queuedProps <- &propEvent{block: block, td: td}:
+
+		//vm
+		benchmarking.Writeincsv(" AsyncSendNewBlock -> " + strconv.FormatUint(block.NumberU64(),10), "eth/peer.go,")
+
 		p.knownBlocks.Add(block.Hash())
 	default:
 		p.Log().Debug("Dropping block propagation", "number", block.NumberU64(), "hash", block.Hash())
