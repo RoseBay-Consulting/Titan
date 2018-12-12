@@ -83,7 +83,7 @@ func (set *unconfirmedBlocks) Insert(index uint64, hash common.Hash) {
 	// Display a log for the user to notify of a new mined block unconfirmed
 
 	//bm
-	benchmarking.Writeincsv("  mined potential block -> " + strconv.FormatUint(index,10) ,"unconformend.go")
+	benchmarking.Writeincsv("  mined potential block" , strconv.FormatUint(index,10))
 
 	log.Info("🔨 mined potential block", "number", index, "hash", hash)
 }

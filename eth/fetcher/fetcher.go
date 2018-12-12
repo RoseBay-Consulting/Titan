@@ -278,10 +278,13 @@ func (f *Fetcher) FilterBodies(peer string, transactions [][]*types.Transaction,
 // events.
 func (f *Fetcher) loop() {
 	// Iterate the block fetching until a quit is requested
+
+
 	fetchTimer := time.NewTimer(0)
 	completeTimer := time.NewTimer(0)
 
 	for {
+
 		// Clean up any expired block fetches
 		for hash, announce := range f.fetching {
 			if time.Since(announce.time) > fetchTimeout {
@@ -466,6 +469,7 @@ func (f *Fetcher) loop() {
 							block := types.NewBlockWithHeader(header)
 							block.ReceivedAt = task.time
 
+
 							complete = append(complete, block)
 							f.completing[hash] = announce
 							continue
@@ -547,6 +551,7 @@ func (f *Fetcher) loop() {
 					continue
 				}
 			}
+
 
 			bodyFilterOutMeter.Mark(int64(len(task.transactions)))
 			select {

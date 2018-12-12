@@ -24,7 +24,6 @@ import (
 	"github.com/ethereum/go-ethereum/ethdb"
 	"github.com/ethereum/go-ethereum/trie"
 	"github.com/hashicorp/golang-lru"
-	"github.com/ethereum/go-ethereum/benchmarking"
 )
 
 // Trie cache generation limit after which to evict trie nodes from memory.
@@ -168,8 +167,6 @@ type cachedTrie struct {
 
 func (m cachedTrie) Commit(onleaf trie.LeafCallback) (common.Hash, error) {
 
-	//bm
-	benchmarking.Writeincsv("  commit on db state tire -> " ,"state/database.go")
 
 	root, err := m.SecureTrie.Commit(onleaf)
 	if err == nil {

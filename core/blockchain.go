@@ -45,7 +45,6 @@ import (
 	"github.com/hashicorp/golang-lru"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 	"github.com/ethereum/go-ethereum/benchmarking"
-	"strconv"
 )
 
 var (
@@ -1232,7 +1231,7 @@ func (st *insertStats) report(chain []*types.Block, index int, cache common.Stor
 		log.Info("Imported new chain segment", context...)
 
 		//bm
-		benchmarking.Writeincsv("  Imported new chain segment -> index = " + strconv.Itoa(index) + " number = " + end.Number().String() ,"core/blockchain.go")
+		benchmarking.Writeincsv("  Imported new chain segment  " , end.Number().String())
 
 
 		*st = insertStats{startTime: now, lastIndex: index + 1}

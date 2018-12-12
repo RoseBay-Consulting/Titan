@@ -40,7 +40,6 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/hashicorp/golang-lru"
-	"github.com/ethereum/go-ethereum/benchmarking"
 )
 
 const (
@@ -594,10 +593,6 @@ func (c *Clique) Authorize(signer common.Address, signFn SignerFn) {
 // the local signing credentials.
 func (c *Clique) Seal(chain consensus.ChainReader, block *types.Block, stop <-chan struct{}) (*types.Block, error) {
 
-	//bm
-	benchmarking.Writeincsv(" create a sealed block using local signing credential " ,"clique.go")
-
-
 	header := block.Header()
 
 	// Sealing the genesis block is not supported
@@ -629,8 +624,6 @@ func (c *Clique) Seal(chain consensus.ChainReader, block *types.Block, stop <-ch
 
 			// Signer is among recents, only wait if the current block doesn't shift it out
 			if limit := uint64(len(snap.Signers)/2 + 1); number < limit || seen > number-limit {
-				//bm
-				benchmarking.Writeincsv(" signed recently and wait for others " ,"clique.go")
 
 				log.Info("Signed recently, must wait for others")
 				<-stop
@@ -646,32 +639,18 @@ func (c *Clique) Seal(chain consensus.ChainReader, block *types.Block, stop <-ch
 		delay += time.Duration(rand.Int63n(int64(wiggle)))
 
 		log.Trace("Out-of-turn signing requested", "wiggle", common.PrettyDuration(wiggle))
-		//bm
-		benchmarking.Writeincsv(" Out-of-turn signing requested  " ,"clique.go")
-
 
 	}
-
-	//bm
-	benchmarking.Writeincsv(" waiting for slot to sign and propogate " ,"clique.go")
 
 	log.Trace("Waiting for slot to sign and propagate", "delay", common.PrettyDuration(delay))
 
 	select {
 	case <-stop:
-		//bm
-		benchmarking.Writeincsv(" case stop after signed " ,"clique.go")
 
 		return nil, nil
 	case <-time.After(delay):
 
-		//bm
-		benchmarking.Writeincsv(" delay after signing " ,"clique.go")
-
 	}
-	//bm
-	benchmarking.Writeincsv(" signed all the things " ,"clique.go")
-
 
 	// Sign all the things!
 	sighash, err := signFn(accounts.Account{Address: signer}, sigHash(header).Bytes())

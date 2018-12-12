@@ -28,8 +28,6 @@ import (
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rlp"
 	"gopkg.in/fatih/set.v0"
-	"github.com/ethereum/go-ethereum/benchmarking"
-	"strconv"
 )
 
 var (
@@ -225,11 +223,7 @@ func (p *peer) SendNewBlockHashes(hashes []common.Hash, numbers []uint64) error 
 	}
 	request := make(newBlockHashesData, len(hashes))
 	for i := 0; i < len(hashes); i++ {
-
-		//vm
-		benchmarking.Writeincsv(" SendNewBlockHashes  number if hashes -> " + strconv.Itoa(len(hashes)), "eth/peer.go,")
-
-		request[i].Hash = hashes[i]
+	request[i].Hash = hashes[i]
 		request[i].Number = numbers[i]
 
 	}
@@ -242,9 +236,6 @@ func (p *peer) SendNewBlockHashes(hashes []common.Hash, numbers []uint64) error 
 func (p *peer) AsyncSendNewBlockHash(block *types.Block) {
 	select {
 	case p.queuedAnns <- block:
-
-		//vm
-		benchmarking.Writeincsv(" AsyncSendNewBlockHash -> " + strconv.FormatUint(block.NumberU64(),10), "eth/peer.go,")
 
 		p.knownBlocks.Add(block.Hash())
 	default:
@@ -263,9 +254,6 @@ func (p *peer) SendNewBlock(block *types.Block, td *big.Int) error {
 func (p *peer) AsyncSendNewBlock(block *types.Block, td *big.Int) {
 	select {
 	case p.queuedProps <- &propEvent{block: block, td: td}:
-
-		//vm
-		benchmarking.Writeincsv(" AsyncSendNewBlock -> " + strconv.FormatUint(block.NumberU64(),10), "eth/peer.go,")
 
 		p.knownBlocks.Add(block.Hash())
 	default:
