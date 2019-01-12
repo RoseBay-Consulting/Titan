@@ -30,6 +30,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/ethereum/go-ethereum/benchmarking"
 )
 
 // Client defines typed wrappers for the Ethereum RPC API.
@@ -430,6 +431,10 @@ func (ec *Client) PendingTransactionCount(ctx context.Context) (uint, error) {
 // case the code is taken from the latest known block. Note that state from very old
 // blocks might not be available.
 func (ec *Client) CallContract(ctx context.Context, msg ethereum.CallMsg, blockNumber *big.Int) ([]byte, error) {
+
+	bm//
+	benchmarking.Writeincsv("  call contract from ethclient " , "1")
+
 	var hex hexutil.Bytes
 	err := ec.c.CallContext(ctx, &hex, "eth_call", toCallArg(msg), toBlockNumArg(blockNumber))
 	if err != nil {
