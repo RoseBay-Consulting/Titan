@@ -433,7 +433,7 @@ func (ec *Client) PendingTransactionCount(ctx context.Context) (uint, error) {
 func (ec *Client) CallContract(ctx context.Context, msg ethereum.CallMsg, blockNumber *big.Int) ([]byte, error) {
 
 	bm//
-	benchmarking.Writeincsv("  call contract from ethclient " , "1")
+	//benchmarking.Writeincsv("  call contract from ethclient " , "1")
 
 	var hex hexutil.Bytes
 	err := ec.c.CallContext(ctx, &hex, "eth_call", toCallArg(msg), toBlockNumArg(blockNumber))
